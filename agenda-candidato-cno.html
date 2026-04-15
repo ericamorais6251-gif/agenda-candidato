@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda do Candidato 2026 · CNO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b3e;
+    --navy2: #1a2d5a;
+    --gold: #f5c842;
+    --green: #2a7f4f;
+    --green2: #34a060;
+    --red: #c0392b;
+    --bg: #f0f2f5;
+    --white: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(13,27,62,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LOGIN ── */
+  #loginScreen {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy2) 60%, #0a3a1f 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 32px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  #loginScreen::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(245,200,66,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(42,127,79,0.10) 0%, transparent 60%);
+  }
+  .login-logo {
+    text-align: center; margin-bottom: 40px; position: relative;
+  }
+  .login-logo .badge {
+    background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 800;
+    letter-spacing: 2px; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 12px;
+  }
+  .login-logo h1 {
+    font-size: 36px; font-weight: 800; color: white; line-height: 1.1;
+  }
+  .login-logo h1 span { color: var(--gold); }
+  .login-logo p { color: rgba(255,255,255,0.55); font-size: 13px; margin-top: 6px; letter-spacing: 1px; }
+  .login-card {
+    background: rgba(255,255,255,0.06); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; padding: 36px 28px; width: 100%; max-width: 360px;
+    position: relative;
+  }
+  .login-card h2 { color: white; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .login-card p { color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 24px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { color: rgba(255,255,255,0.7); font-size: 12px; font-weight: 600; letter-spacing: 0.5px; display: block; margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 13px 16px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08); color: white; font-family: 'Sora', sans-serif; font-size: 14px;
+    outline: none; transition: border 0.2s;
+  }
+  .form-group input::placeholder { color: rgba(255,255,255,0.3); }
+  .form-group input:focus { border-color: var(--gold); }
+  .btn-primary {
+    width: 100%; padding: 14px; border-radius: 10px;
+    background: var(--gold); color: var(--navy); font-family: 'Sora', sans-serif;
+    font-size: 15px; font-weight: 800; border: none; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,200,66,0.35); }
+  .btn-secondary {
+    padding: 10px 18px; border-radius: 8px;
+    background: transparent; color: var(--navy); font-family: 'Sora', sans-serif;
+    font-size: 13px; font-weight: 600; border: 2px solid var(--navy); cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-green {
+    padding: 12px 20px; border-radius: 10px;
+    background: var(--green); color: white; font-family: 'Sora', sans-serif;
+    font-size: 13px; font-weight: 700; border: none; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-green:hover { background: var(--green2); }
+  .btn-red {
+    padding: 8px 14px; border-radius: 8px;
+    background: #fee2e2; color: var(--red); font-family: 'Sora', sans-serif;
+    font-size: 12px; font-weight: 700; border: none; cursor: pointer;
+  }
+  .login-footer { color: rgba(255,255,255,0.35); font-size: 11px; text-align: center; margin-top: 20px; }
+
+  /* ── APP ── */
+  #app { display: none; }
+
+  /* TOP BAR */
+  .topbar {
+    background: var(--navy);
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  }
+  .topbar-logo { color: white; font-size: 15px; font-weight: 800; }
+  .topbar-logo span { color: var(--gold); }
+  .topbar-user { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--gold); color: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 13px;
+  }
+  .topbar-name { color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 600; }
+
+  /* NAV */
+  .bottomnav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: white; border-top: 1px solid var(--border);
+    display: flex; z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  }
+  .nav-item {
+    flex: 1; padding: 10px 4px 12px; display: flex; flex-direction: column;
+    align-items: center; gap: 3px; cursor: pointer; border: none; background: none;
+    font-family: 'Sora', sans-serif; color: var(--muted); font-size: 10px; font-weight: 600;
+    transition: color 0.15s; letter-spacing: 0.3px;
+  }
+  .nav-item.active { color: var(--navy); }
+  .nav-item .nav-icon { font-size: 20px; }
+  .nav-item.active .nav-icon { filter: none; }
+
+  /* CONTENT */
+  .content {
+    padding: 20px 16px 100px;
+    max-width: 480px; margin: 0 auto;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 20px;
+    margin-bottom: 16px; border: 1px solid var(--border);
+  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .card-title { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .section-title {
+    font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px; margin-top: 8px;
+  }
+
+  /* DASHBOARD */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .stat-card {
+    background: var(--card); border-radius: 14px; padding: 16px;
+    box-shadow: var(--shadow); border: 1px solid var(--border); text-align: center;
+  }
+  .stat-card.gold { background: linear-gradient(135deg, var(--navy), var(--navy2)); }
+  .stat-card.green { background: linear-gradient(135deg, var(--green), #1e6b40); }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--navy); line-height: 1; }
+  .stat-card.gold .stat-num, .stat-card.green .stat-num { color: var(--gold); }
+  .stat-label { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 4px; letter-spacing: 0.3px; }
+  .stat-card.gold .stat-label, .stat-card.green .stat-label { color: rgba(255,255,255,0.6); }
+
+  .alert-box {
+    border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .alert-box.warning { background: #fffbeb; border: 1px solid #fde68a; }
+  .alert-box.info { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .alert-box.success { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .alert-text strong { font-weight: 700; }
+
+  /* AGENDA */
+  .agenda-item {
+    border-left: 3px solid var(--gold); padding: 12px 14px; border-radius: 0 10px 10px 0;
+    background: white; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .agenda-time { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); font-weight: 600; }
+  .agenda-title { font-size: 14px; font-weight: 700; color: var(--navy); margin: 2px 0; }
+  .agenda-local { font-size: 12px; color: var(--muted); }
+  .tag {
+    display: inline-block; padding: 2px 8px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .tag.comicio { background: #dbeafe; color: #1d4ed8; }
+  .tag.reuniao { background: #f3e8ff; color: #7c3aed; }
+  .tag.visita { background: #dcfce7; color: #16a34a; }
+  .tag.midia { background: #fee2e2; color: #b91c1c; }
+  .tag.entrega { background: #fff7ed; color: #c2410c; }
+
+  /* GASTOS */
+  .gasto-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .gasto-item:last-child { border-bottom: none; }
+  .gasto-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 12px; }
+  .gasto-info { flex: 1; }
+  .gasto-desc { font-size: 13px; font-weight: 600; color: var(--text); }
+  .gasto-cat { font-size: 11px; color: var(--muted); }
+  .gasto-valor { font-size: 14px; font-weight: 800; color: var(--red); font-family: 'IBM Plex Mono', monospace; }
+  .progress-bar { height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden; margin: 6px 0 3px; }
+  .progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+  .progress-fill.ok { background: var(--green); }
+  .progress-fill.warn { background: #f59e0b; }
+  .progress-fill.danger { background: var(--red); }
+
+  /* EQUIPE */
+  .membro-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .membro-item:last-child { border-bottom: none; }
+  .membro-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+  .membro-info { flex: 1; }
+  .membro-nome { font-size: 13px; font-weight: 700; color: var(--text); }
+  .membro-zona { font-size: 11px; color: var(--muted); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .status-dot.ativo { background: #22c55e; }
+  .status-dot.inativo { background: #e5e7eb; }
+
+  /* MARKETING / LEIS */
+  .tip-card {
+    border-radius: 12px; padding: 16px; margin-bottom: 12px;
+  }
+  .tip-card.gold-tip { background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 1px solid #fde68a; }
+  .tip-card.blue-tip { background: linear-gradient(135deg, #eff6ff, #dbeafe); border: 1px solid #bfdbfe; }
+  .tip-card.red-tip { background: linear-gradient(135deg, #fff1f2, #fee2e2); border: 1px solid #fecaca; }
+  .tip-card.green-tip { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border: 1px solid #bbf7d0; }
+  .tip-icon { font-size: 24px; margin-bottom: 8px; }
+  .tip-title { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .tip-text { font-size: 13px; line-height: 1.6; color: #374151; }
+
+  /* TABS */
+  .tabs { display: flex; background: #e5e7eb; border-radius: 10px; padding: 3px; margin-bottom: 16px; }
+  .tab { flex: 1; padding: 8px; border-radius: 8px; border: none; background: none; font-family: 'Sora', sans-serif; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .tab.active { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: white; border-radius: 20px 20px 0 0; padding: 28px 20px 36px;
+    width: 100%; max-width: 480px; max-height: 85vh; overflow-y: auto;
+    transform: translateY(40px); transition: transform 0.25s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-handle { width: 40px; height: 4px; background: #e5e7eb; border-radius: 2px; margin: 0 auto 20px; }
+  .modal-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+
+  /* FORM */
+  .field { margin-bottom: 14px; }
+  .field label { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; display: block; margin-bottom: 5px; text-transform: uppercase; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    border: 1.5px solid var(--border); font-family: 'Sora', sans-serif;
+    font-size: 14px; color: var(--text); outline: none; transition: border 0.2s;
+    background: white;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); }
+  .field textarea { resize: vertical; min-height: 80px; }
+
+  /* MISC */
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty-state .emoji { font-size: 40px; margin-bottom: 10px; }
+  .empty-state p { font-size: 13px; line-height: 1.6; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .fab {
+    position: fixed; bottom: 80px; right: 20px;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--navy); color: var(--gold); font-size: 24px;
+    border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(13,27,62,0.35);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 90; transition: transform 0.15s;
+  }
+  .fab:hover { transform: scale(1.08); }
+  .divider { height: 1px; background: var(--border); margin: 8px 0; }
+  .br-flag { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- login removido -->
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div id="app" style="display:block">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-logo">Agenda do <span>Candidato</span></div>
+    <div class="topbar-user">
+      <div>
+        <div class="topbar-name" id="topbarNome">Candidato</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.4);">Planilha 2026</div>
+      </div>
+      <div class="avatar" id="topbarAvatar">C</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="page active" id="pgDashboard">
+      <div class="section-title">Visão Geral</div>
+
+      <div class="stat-grid">
+        <div class="stat-card gold">
+          <div class="stat-num" id="statEventos">3</div>
+          <div class="stat-label">Eventos hoje</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-num" id="statEquipe">8</div>
+          <div class="stat-label">Equipe ativa</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" style="color:var(--red)" id="statGastos">R$ 890</div>
+          <div class="stat-label">Gastos hoje</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statDias">169</div>
+          <div class="stat-label">Dias p/ eleição</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚠️ Limite TSE de Gastos</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px">
+          <span>Gasto: <strong style="color:var(--navy)" id="gastoTotal">R$ 12.450</strong></span>
+          <span>Limite: <strong style="color:var(--navy)" id="gastoLimite">R$ 40.000</strong></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill ok" style="width:31%" id="gastoBar"></div>
+        </div>
+        <div style="font-size:11px;color:var(--green);font-weight:700" id="gastoPerc">31% utilizado · Margem segura ✓</div>
+      </div>
+
+      <div class="alert-box info">
+        <div class="alert-icon">📅</div>
+        <div class="alert-text"><strong>Próximo evento:</strong> Comício na Praça Central — hoje às 19h</div>
+      </div>
+      <div class="alert-box warning">
+        <div class="alert-icon">⚡</div>
+        <div class="alert-text"><strong>Dica CNO:</strong> Poste nos stories hoje antes das 12h — engajamento é 2x maior pela manhã!</div>
+      </div>
+      <div class="alert-box success">
+        <div class="alert-icon">✅</div>
+        <div class="alert-text"><strong>TSE 2026:</strong> Pré-campanha autorizada a partir de 1º de junho. Planeje suas ações!</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">📊 Resumo da semana</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="chip" style="background:#dbeafe;color:#1d4ed8">🎤 4 comícios</span>
+          <span class="chip" style="background:#dcfce7;color:#16a34a">🤝 12 reuniões</span>
+          <span class="chip" style="background:#f3e8ff;color:#7c3aed">📣 8 posts</span>
+          <span class="chip" style="background:#fff7ed;color:#c2410c">🏘️ 6 visitas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AGENDA ── -->
+    <div class="page" id="pgAgenda">
+      <div class="section-title">Minha Agenda</div>
+
+      <div class="card" style="padding:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:20px;font-weight:800;color:var(--navy)" id="agendaDataLabel">Quarta, 15 abr</div>
+            <div style="font-size:12px;color:var(--muted)">2026 · Eleições em outubro</div>
+          </div>
+          <button class="btn-green" onclick="abrirModalAgenda()">+ Evento</button>
+        </div>
+      </div>
+
+      <div id="listaAgenda"></div>
+    </div>
+
+    <!-- ── GASTOS ── -->
+    <div class="page" id="pgGastos">
+      <div class="section-title">Controle de Gastos</div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div>
+            <div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px">Total gasto</div>
+            <div style="font-size:28px;font-weight:800;color:var(--navy);font-family:'IBM Plex Mono',monospace" id="gastoTotalDisplay">R$ 12.450,00</div>
+          </div>
+          <button class="btn-green" onclick="abrirModalGasto()">+ Gasto</button>
+        </div>
+        <div class="progress-bar" style="height:10px">
+          <div class="progress-fill ok" style="width:31%" id="gastoBar2"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:4px">
+          <span style="color:var(--green);font-weight:700">Utilizado: 31%</span>
+          <span style="color:var(--muted)">Limite TSE: R$ 40.000,00</span>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="filtrarGastos('todos',this)">Todos</button>
+        <button class="tab" onclick="filtrarGastos('lanche',this)">🍔 Alimentação</button>
+        <button class="tab" onclick="filtrarGastos('combustivel',this)">⛽ Combustível</button>
+        <button class="tab" onclick="filtrarGastos('material',this)">📄 Material</button>
+      </div>
+
+      <div class="card" style="padding:0 20px">
+        <div id="listaGastos"></div>
+      </div>
+
+      <div class="card" style="background:var(--navy);color:white">
+        <div style="font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px">⚖️ Categorias permitidas pelo TSE</div>
+        <div style="font-size:12px;line-height:1.8;color:rgba(255,255,255,0.8)">
+          ✓ Alimentação de equipe<br>
+          ✓ Combustível (com NF)<br>
+          ✓ Material gráfico<br>
+          ✓ Aluguel de espaços<br>
+          ✓ Serviços de comunicação<br>
+          ✓ Despesas com pessoal (voluntário)<br>
+          ⚠️ <em>Guarde TODAS as notas fiscais!</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── EQUIPE ── -->
+    <div class="page" id="pgEquipe">
+      <div class="section-title">Minha Equipe</div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="totalEquipe">8</div>
+          <div class="stat-label">Total de membros</div>
+        </div>
+        <div class="stat-card gold">
+          <div class="stat-num">5</div>
+          <div class="stat-label" style="color:rgba(255,255,255,0.6)">Ativos hoje</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0 20px">
+        <div id="listaEquipe"></div>
+      </div>
+
+      <button class="btn-green" onclick="abrirModalMembro()" style="width:100%;padding:14px;border-radius:12px">+ Adicionar membro</button>
+    </div>
+
+    <!-- ── MARKETING & LEIS ── -->
+    <div class="page" id="pgMarketing">
+      <div class="tabs">
+        <button class="tab active" onclick="mudarTab('tabDicas',this)">💡 Dicas</button>
+        <button class="tab" onclick="mudarTab('tabLeis',this)">⚖️ Leis</button>
+        <button class="tab" onclick="mudarTab('tabEstrategia',this)">🎯 Estratégia</button>
+      </div>
+
+      <!-- DICAS DE MARKETING -->
+      <div id="tabDicas">
+        <div class="section-title">Marketing Eleitoral</div>
+
+        <div class="tip-card gold-tip">
+          <div class="tip-icon">📱</div>
+          <div class="tip-title">Redes Sociais — Foco no Instagram</div>
+          <div class="tip-text">Post nos stories entre 7h–9h e 19h–21h. Use reels curtos (15–30s) com propostas. Faça lives toda semana para criar conexão com eleitores. Responda todos os comentários nas primeiras 2h.</div>
+        </div>
+
+        <div class="tip-card blue-tip">
+          <div class="tip-icon">🎤</div>
+          <div class="tip-title">Comícios e Eventos</div>
+          <div class="tip-text">Sempre grave vídeo de todos os eventos para publicar depois. Leve brindes simples: santinhos, adesivos, bonés. Chegue 30min antes para cumprimentar quem chega. Tenha um ponto focal em cada zona eleitoral.</div>
+        </div>
+
+        <div class="tip-card green-tip">
+          <div class="tip-icon">🤝</div>
+          <div class="tip-title">Corpo a Corpo — O mais eficaz</div>
+          <div class="tip-text">Visita porta a porta ainda é a estratégia #1 para vereadores e deputados estaduais. Anote o nome das pessoas que conversa. Faça follow-up por WhatsApp. 1 visita pessoal vale por 100 panfletos.</div>
+        </div>
+
+        <div class="tip-card gold-tip">
+          <div class="tip-icon">📊</div>
+          <div class="tip-title">WhatsApp — Sua maior arma</div>
+          <div class="tip-text">Crie grupos por bairro/zona. Envie conteúdo útil (não só campanha). 3 mensagens por semana máximo para não incomodar. Use listas de transmissão para mensagens personalizadas.</div>
+        </div>
+      </div>
+
+      <!-- LEIS -->
+      <div id="tabLeis" style="display:none">
+        <div class="section-title">O que pode e o que NÃO pode</div>
+
+        <div class="tip-card green-tip">
+          <div class="tip-icon">✅</div>
+          <div class="tip-title">PODE fazer na campanha</div>
+          <div class="tip-text">
+            • Distribuir santinhos, adesivos e brindes simples<br>
+            • Fazer comícios com música ao vivo<br>
+            • Impulsionar posts no Facebook/Instagram<br>
+            • Anúncios pagos no Google (com registro no TSE)<br>
+            • Camisetas e bonés para voluntários<br>
+            • Carreatas (com autorização prévia)<br>
+            • Debates e entrevistas na mídia<br>
+            • Pedir votos pessoalmente
+          </div>
+        </div>
+
+        <div class="tip-card red-tip">
+          <div class="tip-icon">🚫</div>
+          <div class="tip-title">NÃO PODE — Risco de cassação!</div>
+          <div class="tip-text">
+            • Comprar votos (crime eleitoral grave)<br>
+            • Usar dinheiro público na campanha<br>
+            • Fazer campanha em escolas/igrejas no dia da eleição<br>
+            • Prometer emprego em troca de voto<br>
+            • Caluniar ou difamar adversários<br>
+            • Impulsionar posts sem CNPJ no TSE<br>
+            • Distribuir bebida alcoólica na campanha<br>
+            • Usar servidores públicos para fazer campanha
+          </div>
+        </div>
+
+        <div class="tip-card blue-tip">
+          <div class="tip-icon">📅</div>
+          <div class="tip-title">Datas importantes 2026</div>
+          <div class="tip-text">
+            • <strong>1º Jun:</strong> Início da pré-campanha<br>
+            • <strong>5 Ago:</strong> Prazo de filiação partidária<br>
+            • <strong>15 Ago:</strong> Convenções partidárias<br>
+            • <strong>26 Ago:</strong> Início oficial da campanha<br>
+            • <strong>4 Out:</strong> 1º turno das eleições<br>
+            • <strong>25 Out:</strong> 2º turno (se houver)<br>
+            • <strong>30 Nov:</strong> Prazo prestação de contas
+          </div>
+        </div>
+
+        <div class="tip-card gold-tip">
+          <div class="tip-icon">💰</div>
+          <div class="tip-title">Prestação de Contas — Obrigatório!</div>
+          <div class="tip-text">Guarde TODA nota fiscal. Registre cada centavo no sistema. O TSE cruza as informações com bancos. Candidatos que prestam contas erradas podem ter o mandato cassado anos depois. Use este app para facilitar!</div>
+        </div>
+      </div>
+
+      <!-- ESTRATÉGIA -->
+      <div id="tabEstrategia" style="display:none">
+        <div class="section-title">Estratégia para Ganhar</div>
+
+        <div class="tip-card blue-tip">
+          <div class="tip-icon">🗺️</div>
+          <div class="tip-title">Mapeie seu território</div>
+          <div class="tip-text">Identifique os 5 bairros com mais eleitores da sua base. Coloque 1 líder de zona em cada. Cada líder deve trazer no mínimo 50 votos garantidos. Foco é melhor que dispersão.</div>
+        </div>
+
+        <div class="tip-card green-tip">
+          <div class="tip-icon">🎯</div>
+          <div class="tip-title">A regra dos 1000 votos</div>
+          <div class="tip-text">Para vereador em cidades médias, você precisa de um núcleo duro de 200–400 eleitores que vão te defender ativamente. Foque em criar defensores, não apenas simpatizantes. 1 defensor ativo = 10 votos.</div>
+        </div>
+
+        <div class="tip-card gold-tip">
+          <div class="tip-icon">📣</div>
+          <div class="tip-title">Sua proposta em 1 frase</div>
+          <div class="tip-text">Eleitores decidem em 7 segundos. Você precisa de UMA proposta clara que seja sua marca. Ex: "Câmeras nos bairros", "Asfalto para o Setor X", "Emprego para jovens". Simples, concreto, local.</div>
+        </div>
+
+        <div class="tip-card red-tip">
+          <div class="tip-icon">⏰</div>
+          <div class="tip-title">Os últimos 30 dias são decisivos</div>
+          <div class="tip-text">Concentre 60% do orçamento nos últimos 30 dias antes da eleição. Visibilidade máxima neste período. Não apareça só no início e desapareça. Eleitores decidem no final.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PREÇOS ── -->
+    <div class="page" id="pgPrecos">
+      <div class="section-title">Planos & Preços</div>
+
+      <div class="card" style="background:linear-gradient(135deg,var(--navy),var(--navy2));border:none;text-align:center;padding:28px 20px">
+        <div style="font-size:12px;font-weight:800;letter-spacing:2px;color:var(--gold);margin-bottom:8px">PRODUTO CNO · ELEIÇÕES 2026</div>
+        <div style="font-size:26px;font-weight:800;color:white;line-height:1.2;margin-bottom:8px">Agenda do<br><span style="color:var(--gold)">Candidato</span></div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.6">A plataforma eleitoral completa que organiza agenda, equipe, gastos e sua vitrine pública — tudo em um só lugar.</div>
+      </div>
+
+      <!-- PLANO CANDIDATO -->
+      <div class="card" style="border:2px solid var(--gold);position:relative;overflow:hidden">
+        <div style="position:absolute;top:14px;right:14px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:1px">MAIS VENDIDO</div>
+        <div style="font-size:12px;font-weight:800;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Plano Candidato</div>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px">
+          <span style="font-size:13px;color:var(--muted);font-weight:600">R$</span>
+          <span style="font-size:42px;font-weight:800;color:var(--navy);font-family:'IBM Plex Mono',monospace;line-height:1">10.000</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:18px">pagamento único · validade até 30 nov 2026</div>
+        <div style="font-size:13px;line-height:2;color:var(--text)">
+          ✅ Acesso completo a todos os módulos<br>
+          ✅ Agenda ilimitada de eventos<br>
+          ✅ Controle de gastos + relatório TSE<br>
+          ✅ Gestão de equipe / voluntários<br>
+          ✅ Dicas de marketing e estratégia<br>
+          ✅ Calendário eleitoral 2026<br>
+          ✅ Acesso por senha exclusiva<br>
+          ✅ Suporte via WhatsApp CNO<br>
+          ✅ Implantação em até 48h
+        </div>
+        <div style="margin-top:18px">
+          <a href="https://wa.me/5561994416273?text=Quero%20contratar%20o%20Agenda%20do%20Candidato%202026%20-%20Plano%20Candidato" target="_blank" style="display:block;text-decoration:none">
+            <button class="btn-green" style="width:100%;padding:14px;border-radius:12px;font-size:15px">📲 Contratar agora · WhatsApp</button>
+          </a>
+        </div>
+      </div>
+
+      <!-- PLANO PARTIDO -->
+      <div class="card" style="border:2px solid var(--navy)">
+        <div style="font-size:12px;font-weight:800;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Plano Partido</div>
+        <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px">
+          <span style="font-size:13px;color:var(--muted);font-weight:600">R$</span>
+          <span style="font-size:42px;font-weight:800;color:var(--navy);font-family:'IBM Plex Mono',monospace;line-height:1">10.000</span>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:18px">por candidato do partido · acesso centralizado</div>
+        <div style="font-size:13px;line-height:2;color:var(--text)">
+          ✅ Tudo do Plano Candidato<br>
+          ✅ Painel do diretório partidário<br>
+          ✅ Monitoramento de todos os candidatos<br>
+          ✅ Relatório consolidado de gastos<br>
+          ✅ Conformidade TSE centralizada<br>
+          ✅ Treinamento da equipe do partido<br>
+          ✅ Senha individual por candidato<br>
+          ✅ Suporte prioritário CNO
+        </div>
+        <div style="margin-top:18px">
+          <a href="https://wa.me/5561994416273?text=Quero%20contratar%20o%20Agenda%20do%20Candidato%202026%20-%20Plano%20Partido" target="_blank" style="display:block;text-decoration:none">
+            <button class="btn-primary" style="width:100%;padding:14px;border-radius:12px;font-size:15px">📲 Falar com a CNO</button>
+          </a>
+        </div>
+      </div>
+
+      <!-- GARANTIAS -->
+      <div class="card" style="background:#f0fdf4;border:1px solid #bbf7d0">
+        <div style="font-size:14px;font-weight:800;color:var(--green);margin-bottom:12px">🛡️ Garantias CNO</div>
+        <div style="font-size:13px;line-height:2;color:#166534">
+          🔒 100% de conformidade com TSE 2026<br>
+          ⚡ Implantação garantida em 48h<br>
+          📋 Relatório pronto para prestação de contas<br>
+          🇧🇷 Desenvolvido por especialistas em segurança pública
+        </div>
+      </div>
+
+      <div class="alert-box info" style="margin-top:4px">
+        <div class="alert-icon">📞</div>
+        <div class="alert-text"><strong>CNO Cibernacional Operations</strong><br>CNPJ 49.817.654/0001-00 · Luziânia-GO / Brasília-DF</div>
+      </div>
+    </div>
+
+
+
+  <!-- BOTTOM NAV -->
+  <div class="bottomnav">
+    <button class="nav-item active" onclick="navegarPara('pgDashboard',this)">
+      <div class="nav-icon">🏠</div>
+      <span>Início</span>
+    </button>
+    <button class="nav-item" onclick="navegarPara('pgAgenda',this)">
+      <div class="nav-icon">📅</div>
+      <span>Agenda</span>
+    </button>
+    <button class="nav-item" onclick="navegarPara('pgGastos',this)">
+      <div class="nav-icon">💰</div>
+      <span>Gastos</span>
+    </button>
+    <button class="nav-item" onclick="navegarPara('pgEquipe',this)">
+      <div class="nav-icon">👥</div>
+      <span>Equipe</span>
+    </button>
+    <button class="nav-item" onclick="navegarPara('pgMarketing',this)">
+      <div class="nav-icon">💡</div>
+      <span>Dicas</span>
+    </button>
+    <button class="nav-item" onclick="navegarPara('pgPrecos',this)">
+      <div class="nav-icon">🏷️</div>
+      <span>Planos</span>
+    </button>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ═══════ MODAIS ═══════ -->
+
+<!-- Modal Agenda -->
+<div class="modal-overlay" id="modalAgenda">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📅 Novo Evento</div>
+    <div class="field"><label>Tipo de evento</label>
+      <select id="eventoTipo">
+        <option value="comicio">🎤 Comício</option>
+        <option value="reuniao">🤝 Reunião</option>
+        <option value="visita">🏘️ Visita de bairro</option>
+        <option value="midia">📺 Mídia / Entrevista</option>
+        <option value="entrega">📦 Entrega de material</option>
+      </select>
+    </div>
+    <div class="field"><label>Descrição do evento</label>
+      <input type="text" id="eventoDesc" placeholder="Ex: Comício Setor Norte">
+    </div>
+    <div class="field"><label>Local</label>
+      <input type="text" id="eventoLocal" placeholder="Ex: Praça Central, Bairro X">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field"><label>Data</label><input type="date" id="eventoData"></div>
+      <div class="field"><label>Horário</label><input type="time" id="eventoHora"></div>
+    </div>
+    <div class="field"><label>Observações</label>
+      <textarea id="eventoObs" placeholder="Detalhes, responsável, material necessário..."></textarea>
+    </div>
+    <button class="btn-green" style="width:100%;padding:14px;border-radius:12px" onclick="salvarEvento()">Salvar evento</button>
+    <button onclick="fecharModal('modalAgenda')" style="width:100%;padding:12px;margin-top:8px;border:none;background:none;color:var(--muted);font-family:'Sora',sans-serif;cursor:pointer;font-size:14px">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal Gasto -->
+<div class="modal-overlay" id="modalGasto">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">💰 Registrar Gasto</div>
+    <div class="field"><label>Categoria</label>
+      <select id="gastoCateg">
+        <option value="lanche">🍔 Alimentação / Lanche</option>
+        <option value="combustivel">⛽ Combustível</option>
+        <option value="material">📄 Material gráfico</option>
+        <option value="transporte">🚗 Transporte</option>
+        <option value="comunicacao">📣 Comunicação / Mídia</option>
+        <option value="evento">🎤 Aluguel de espaço</option>
+        <option value="outro">📦 Outros</option>
+      </select>
+    </div>
+    <div class="field"><label>Descrição</label>
+      <input type="text" id="gastoDesc2" placeholder="Ex: Lanche equipe comício Setor Norte">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field"><label>Valor (R$)</label><input type="number" id="gastoValor2" placeholder="0,00" step="0.01"></div>
+      <div class="field"><label>Data</label><input type="date" id="gastoData2"></div>
+    </div>
+    <div class="field"><label>Fornecedor / Nota fiscal</label>
+      <input type="text" id="gastoNF" placeholder="Ex: Padaria Silva · NF 001234">
+    </div>
+    <div class="alert-box warning" style="margin-bottom:14px">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-text" style="font-size:12px"><strong>Guarde a nota fiscal!</strong> É obrigatório para prestação de contas ao TSE.</div>
+    </div>
+    <button class="btn-green" style="width:100%;padding:14px;border-radius:12px" onclick="salvarGasto()">Registrar gasto</button>
+    <button onclick="fecharModal('modalGasto')" style="width:100%;padding:12px;margin-top:8px;border:none;background:none;color:var(--muted);font-family:'Sora',sans-serif;cursor:pointer;font-size:14px">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal Membro -->
+<div class="modal-overlay" id="modalMembro">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">👤 Novo Membro</div>
+    <div class="field"><label>Nome completo</label>
+      <input type="text" id="membroNome" placeholder="Nome do voluntário/coordenador">
+    </div>
+    <div class="field"><label>Função</label>
+      <select id="membroFuncao">
+        <option>Coordenador de zona</option>
+        <option>Líder de bairro</option>
+        <option>Voluntário</option>
+        <option>Motorista</option>
+        <option>Assessor de mídia</option>
+        <option>Distribuidor de material</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field"><label>Zona eleitoral</label><input type="text" id="membroZona" placeholder="Ex: Zona 05"></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="membroWpp" placeholder="(62) 9..."></div>
+    </div>
+    <div class="field"><label>Bairro de atuação</label>
+      <input type="text" id="membroBairro" placeholder="Ex: Setor Norte">
+    </div>
+    <button class="btn-green" style="width:100%;padding:14px;border-radius:12px" onclick="salvarMembro()">Adicionar à equipe</button>
+    <button onclick="fecharModal('modalMembro')" style="width:100%;padding:12px;margin-top:8px;border:none;background:none;color:var(--muted);font-family:'Sora',sans-serif;cursor:pointer;font-size:14px">Cancelar</button>
+  </div>
+</div>
+
+<script>
+// ── DADOS ──
+let candidatoNome = '';
+let eventos = [
+  { tipo:'comicio', desc:'Comício Praça Central', local:'Praça da República', data:'2026-04-15', hora:'19:00', obs:'Banda ao vivo, 200 cadeiras' },
+  { tipo:'reuniao', desc:'Reunião líderes Setor Norte', local:'Casa do João Silva', data:'2026-04-15', hora:'10:00', obs:'' },
+  { tipo:'visita', desc:'Visita porta a porta', local:'Vila Esperança', data:'2026-04-16', hora:'09:00', obs:'Levar santinhos' },
+];
+let gastos = [
+  { categ:'lanche', desc:'Lanche equipe comício', valor:350, data:'2026-04-15', nf:'Padaria Bom Gosto NF 0821' },
+  { categ:'combustivel', desc:'Gasolina — 3 carros', valor:540, data:'2026-04-14', nf:'Posto Shell NF 4420' },
+  { categ:'material', desc:'Santinhos (5.000 un)', valor:800, data:'2026-04-12', nf:'Gráfica Digital NF 330' },
+  { categ:'comunicacao', desc:'Impulsionamento Instagram', valor:200, data:'2026-04-11', nf:'Meta Ads' },
+];
+let equipe = [
+  { nome:'Carlos Mendes', funcao:'Coordenador de zona', zona:'Zona 05', wpp:'62991234567', bairro:'Setor Norte', ativo:true },
+  { nome:'Ana Paula', funcao:'Líder de bairro', zona:'Zona 03', wpp:'62987654321', bairro:'Vila Nova', ativo:true },
+  { nome:'Marcos Freitas', funcao:'Motorista', zona:'Zona 05', wpp:'62998877665', bairro:'Centro', ativo:false },
+  { nome:'Joana Costa', funcao:'Assessor de mídia', zona:'Zona 01', wpp:'62944332211', bairro:'Jardim América', ativo:true },
+];
+
+let gastoTotal = 12450;
+const gastoLimite = 40000;
+
+const catIcons = { lanche:'🍔', combustivel:'⛽', material:'📄', transporte:'🚗', comunicacao:'📣', evento:'🎤', outro:'📦' };
+const catColors = { lanche:'#fef3c7', combustivel:'#dcfce7', material:'#dbeafe', transporte:'#f3e8ff', comunicacao:'#fee2e2', evento:'#fff7ed', outro:'#f0fdf4' };
+const tipoColors = { comicio:'comicio', reuniao:'reuniao', visita:'visita', midia:'midia', entrega:'entrega' };
+const tipoLabels = { comicio:'🎤 Comício', reuniao:'🤝 Reunião', visita:'🏘️ Visita', midia:'📺 Mídia', entrega:'📦 Entrega' };
+
+// ── AUTO INÍCIO ──
+candidatoNome = 'Erica Morais';
+document.getElementById('topbarNome').textContent = candidatoNome;
+document.getElementById('topbarAvatar').textContent = 'E';
+renderAll();
+const eleicao = new Date('2026-10-04');
+const hoje2 = new Date();
+const dias2 = Math.ceil((eleicao - hoje2) / (1000 * 60 * 60 * 24));
+document.getElementById('statDias').textContent = dias2;
+
+// ── NAVEGAÇÃO ──
+function navegarPara(pageId, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function mudarTab(tabId, btn) {
+  ['tabDicas','tabLeis','tabEstrategia'].forEach(t => {
+    document.getElementById(t).style.display = 'none';
+  });
+  document.getElementById(tabId).style.display = 'block';
+  btn.closest('.tabs').querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function filtrarGastos(cat, btn) {
+  btn.closest('.tabs').querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGastos(cat === 'todos' ? null : cat);
+}
+
+// ── MODAIS ──
+function abrirModalAgenda() {
+  document.getElementById('eventoData').value = new Date().toISOString().slice(0,10);
+  document.getElementById('modalAgenda').classList.add('open');
+}
+function abrirModalGasto() {
+  document.getElementById('gastoData2').value = new Date().toISOString().slice(0,10);
+  document.getElementById('modalGasto').classList.add('open');
+}
+function abrirModalMembro() {
+  document.getElementById('modalMembro').classList.add('open');
+}
+function fecharModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); });
+});
+
+// ── SALVAR ──
+function salvarEvento() {
+  const ev = {
+    tipo: document.getElementById('eventoTipo').value,
+    desc: document.getElementById('eventoDesc').value || 'Evento',
+    local: document.getElementById('eventoLocal').value || 'A definir',
+    data: document.getElementById('eventoData').value,
+    hora: document.getElementById('eventoHora').value || '00:00',
+    obs: document.getElementById('eventoObs').value,
+  };
+  eventos.unshift(ev);
+  document.getElementById('statEventos').textContent = eventos.filter(e => e.data === new Date().toISOString().slice(0,10)).length;
+  fecharModal('modalAgenda');
+  renderAgenda();
+  // clear
+  ['eventoDesc','eventoLocal','eventoObs'].forEach(id => document.getElementById(id).value = '');
+}
+
+function salvarGasto() {
+  const v = parseFloat(document.getElementById('gastoValor2').value) || 0;
+  gastos.unshift({
+    categ: document.getElementById('gastoCateg').value,
+    desc: document.getElementById('gastoDesc2').value || 'Despesa',
+    valor: v,
+    data: document.getElementById('gastoData2').value,
+    nf: document.getElementById('gastoNF').value,
+  });
+  gastoTotal += v;
+  fecharModal('modalGasto');
+  renderGastos(null);
+  atualizarBarra();
+  ['gastoDesc2','gastoValor2','gastoNF'].forEach(id => document.getElementById(id).value = '');
+}
+
+function salvarMembro() {
+  equipe.push({
+    nome: document.getElementById('membroNome').value || 'Novo Membro',
+    funcao: document.getElementById('membroFuncao').value,
+    zona: document.getElementById('membroZona').value || 'Zona —',
+    wpp: document.getElementById('membroWpp').value,
+    bairro: document.getElementById('membroBairro').value || '—',
+    ativo: true,
+  });
+  document.getElementById('totalEquipe').textContent = equipe.length;
+  document.getElementById('statEquipe').textContent = equipe.filter(m=>m.ativo).length;
+  fecharModal('modalMembro');
+  renderEquipe();
+  ['membroNome','membroZona','membroWpp','membroBairro'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ── RENDER ──
+function renderAll() {
+  renderAgenda();
+  renderGastos(null);
+  renderEquipe();
+}
+
+function renderAgenda() {
+  const container = document.getElementById('listaAgenda');
+  if (!eventos.length) {
+    container.innerHTML = '<div class="empty-state"><div class="emoji">📅</div><p>Nenhum evento ainda.<br>Toque em "+ Evento" para adicionar.</p></div>';
+    return;
+  }
+  // grupo por data
+  const grupos = {};
+  eventos.forEach(e => {
+    if (!grupos[e.data]) grupos[e.data] = [];
+    grupos[e.data].push(e);
+  });
+  let html = '';
+  Object.keys(grupos).sort().forEach(data => {
+    const d = new Date(data + 'T00:00:00');
+    const label = d.toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'short'});
+    html += `<div class="section-title" style="margin-top:16px">${label}</div>`;
+    grupos[data].forEach(e => {
+      html += `
+        <div class="agenda-item">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span class="tag ${e.tipo}">${tipoLabels[e.tipo]||e.tipo}</span>
+            <span class="agenda-time">${e.hora}</span>
+          </div>
+          <div class="agenda-title">${e.desc}</div>
+          <div class="agenda-local">📍 ${e.local}</div>
+          ${e.obs ? `<div style="font-size:11px;color:var(--muted);margin-top:4px;font-style:italic">${e.obs}</div>` : ''}
+        </div>`;
+    });
+  });
+  container.innerHTML = html;
+}
+
+function renderGastos(filtro) {
+  const container = document.getElementById('listaGastos');
+  const lista = filtro ? gastos.filter(g => g.categ === filtro) : gastos;
+  if (!lista.length) {
+    container.innerHTML = '<div class="empty-state"><div class="emoji">💰</div><p>Nenhum gasto nesta categoria.</p></div>';
+    return;
+  }
+  let html = '';
+  lista.forEach((g, i) => {
+    html += `
+      <div class="gasto-item">
+        <div class="gasto-icon" style="background:${catColors[g.categ]||'#f3f4f6'}">${catIcons[g.categ]||'📦'}</div>
+        <div class="gasto-info">
+          <div class="gasto-desc">${g.desc}</div>
+          <div class="gasto-cat">${g.nf || g.categ} · ${g.data}</div>
+        </div>
+        <div class="gasto-valor">R$ ${g.valor.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+      </div>`;
+  });
+  container.innerHTML = html;
+  atualizarBarra();
+}
+
+function atualizarBarra() {
+  const perc = Math.min(100, (gastoTotal / gastoLimite) * 100);
+  const cl = perc < 60 ? 'ok' : perc < 80 ? 'warn' : 'danger';
+  const msg = perc < 60 ? `${perc.toFixed(0)}% utilizado · Margem segura ✓` :
+               perc < 80 ? `${perc.toFixed(0)}% utilizado · Atenção ao limite ⚠️` :
+               `${perc.toFixed(0)}% utilizado · RISCO DE ULTRAPASSAR ❗`;
+  ['gastoBar','gastoBar2'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) { el.style.width = perc+'%'; el.className = `progress-fill ${cl}`; }
+  });
+  const t = `R$ ${gastoTotal.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;
+  ['gastoTotal','gastoTotalDisplay'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.textContent = t;
+  });
+  const gp = document.getElementById('gastoPerc');
+  if(gp) { gp.textContent = msg; gp.style.color = perc < 60 ? 'var(--green)' : perc < 80 ? '#d97706' : 'var(--red)'; }
+}
+
+const avatarColors = ['#0d1b3e','#2a7f4f','#7c3aed','#b91c1c','#c2410c','#1d4ed8'];
+function renderEquipe() {
+  const container = document.getElementById('listaEquipe');
+  if (!equipe.length) {
+    container.innerHTML = '<div class="empty-state"><div class="emoji">👥</div><p>Nenhum membro ainda.</p></div>';
+    return;
+  }
+  let html = '';
+  equipe.forEach((m, i) => {
+    const color = avatarColors[i % avatarColors.length];
+    html += `
+      <div class="membro-item">
+        <div class="membro-avatar" style="background:${color};color:white">${m.nome.charAt(0)}</div>
+        <div class="membro-info">
+          <div class="membro-nome">${m.nome}</div>
+          <div class="membro-zona">${m.funcao} · ${m.bairro} · ${m.zona}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+          <div class="status-dot ${m.ativo?'ativo':'inativo'}"></div>
+          <div style="font-size:9px;color:var(--muted);font-weight:700">${m.ativo?'ATIVO':'OFF'}</div>
+        </div>
+      </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// Data de hoje na agenda
+const hojeAgenda = new Date();
+document.getElementById('agendaDataLabel').textContent = hojeAgenda.toLocaleDateString('pt-BR',{weekday:'long', day:'numeric', month:'short'});
+
+// fim
+</script>
+</body>
+</html>
