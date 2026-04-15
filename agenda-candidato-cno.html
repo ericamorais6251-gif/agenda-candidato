@@ -307,8 +307,28 @@
 
 <!-- login removido -->
 
+<!-- ── TELA DE LOGIN ── -->
+<div id="loginScreen" style="min-height:100vh;background:linear-gradient(160deg,#0d1b3e 0%,#1a2d5a 60%,#0a3a1f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;position:relative;overflow:hidden">
+  <div style="text-align:center;margin-bottom:36px;position:relative">
+    <div style="background:#f5c842;color:#0d1b3e;font-size:10px;font-weight:800;letter-spacing:2px;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:14px">🇧🇷 ELEIÇÕES 2026 · PRODUTO CNO</div>
+    <div style="font-size:40px;font-weight:900;color:white;line-height:1.1">Agenda do<br><span style="color:#f5c842">Candidato</span></div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;letter-spacing:2px">PLANILHA 2026 · BY CNO</div>
+  </div>
+  <div style="background:rgba(255,255,255,0.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:32px 24px;width:100%;max-width:340px">
+    <div style="color:white;font-size:18px;font-weight:800;margin-bottom:6px">Acesse sua conta</div>
+    <div style="color:rgba(255,255,255,0.45);font-size:13px;margin-bottom:24px">Digite sua senha para entrar</div>
+    <div style="margin-bottom:16px">
+      <label style="color:rgba(255,255,255,0.7);font-size:12px;font-weight:700;letter-spacing:0.5px;display:block;margin-bottom:6px">SENHA DE ACESSO</label>
+      <input type="password" id="senhaInput" placeholder="••••••••••" style="width:100%;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:white;font-family:'Sora',sans-serif;font-size:15px;outline:none" onkeydown="if(event.key==='Enter')entrar()">
+    </div>
+    <div id="erroLogin" style="color:#f87171;font-size:12px;margin-bottom:10px;display:none">❌ Senha incorreta. Tente novamente.</div>
+    <button onclick="entrar()" style="width:100%;padding:15px;border-radius:10px;background:#f5c842;color:#0d1b3e;font-family:'Sora',sans-serif;font-size:15px;font-weight:800;border:none;cursor:pointer">Entrar na plataforma →</button>
+    <div style="color:rgba(255,255,255,0.25);font-size:11px;text-align:center;margin-top:16px">CNO Cibernacional Operations · CNPJ 49.817.654/0001-00</div>
+  </div>
+</div>
+
 <!-- ═══════════════ APP ═══════════════ -->
-<div id="app" style="display:block">
+<div id="app" style="display:none">
 
   <!-- TOPBAR -->
   <div class="topbar">
@@ -832,15 +852,31 @@ const catColors = { lanche:'#fef3c7', combustivel:'#dcfce7', material:'#dbeafe',
 const tipoColors = { comicio:'comicio', reuniao:'reuniao', visita:'visita', midia:'midia', entrega:'entrega' };
 const tipoLabels = { comicio:'🎤 Comício', reuniao:'🤝 Reunião', visita:'🏘️ Visita', midia:'📺 Mídia', entrega:'📦 Entrega' };
 
-// ── AUTO INÍCIO ──
-candidatoNome = 'Erica Morais';
-document.getElementById('topbarNome').textContent = candidatoNome;
-document.getElementById('topbarAvatar').textContent = 'E';
-renderAll();
-const eleicao = new Date('2026-10-04');
-const hoje2 = new Date();
-const dias2 = Math.ceil((eleicao - hoje2) / (1000 * 60 * 60 * 24));
-document.getElementById('statDias').textContent = dias2;
+// ── LOGIN COM SENHA ──
+const SENHAS = {
+  'Ouro 1989': { nome: 'Demonstração CNO', avatar: 'C' }
+};
+
+function entrar() {
+  const senha = document.getElementById('senhaInput').value;
+  const usuario = SENHAS[senha];
+  if (usuario) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    candidatoNome = usuario.nome;
+    document.getElementById('topbarNome').textContent = usuario.nome;
+    document.getElementById('topbarAvatar').textContent = usuario.avatar;
+    renderAll();
+    const eleicao = new Date('2026-10-04');
+    const hoje2 = new Date();
+    const dias2 = Math.ceil((eleicao - hoje2) / (1000 * 60 * 60 * 24));
+    document.getElementById('statDias').textContent = dias2;
+  } else {
+    document.getElementById('erroLogin').style.display = 'block';
+    document.getElementById('senhaInput').value = '';
+    document.getElementById('senhaInput').focus();
+  }
+}
 
 // ── NAVEGAÇÃO ──
 function navegarPara(pageId, btn) {
