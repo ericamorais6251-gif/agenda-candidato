@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Carmelina Pharma Entregas</title>
+<style>
+:root{
+  --verm:#C8102E;--verm-d:#8B0000;--verm-l:#FFE4E6;--verm-m:#fecaca;
+  --ouro:#B8860B;--ouro-l:#FFF8E1;
+  --verde:#059669;--azul:#1D4ED8;--laranja:#EA580C;--roxo:#7C3AED;
+  --cinza:#6B7280;--cinza-l:#F9FAFB;--borda:#E5E7EB;--preto:#111827;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#FFF5F5;max-width:480px;margin:0 auto;min-height:100vh;overflow-x:hidden}
+button,input,select,textarea{font-family:inherit}
+button:active{transform:scale(.97)}
+
+/* ── SPLASH ── */
+#splash{position:fixed;inset:0;background:linear-gradient(160deg,var(--verm-d),var(--verm),#e63950);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .5s}
+#splash.hide{opacity:0;pointer-events:none}
+.splash-vovo{animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.splash-titulo{color:white;font-size:30px;font-weight:900;font-family:Georgia,serif;margin-top:12px;letter-spacing:-1px}
+.splash-sub{color:rgba(255,255,255,.8);font-size:13px;font-style:italic;margin-top:6px}
+.splash-loading{margin-top:32px;display:flex;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.6);animation:dots .8s infinite alternate}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes dots{to{background:white;transform:scale(1.3)}}
+
+/* ── LOGIN ── */
+#pg-login{min-height:100vh;background:linear-gradient(160deg,var(--verm-d),var(--verm),#e63950);display:none;flex-direction:column;align-items:center;padding:24px 20px 40px}
+.login-hero{text-align:center;color:white;margin-bottom:24px;padding-top:16px}
+.login-vovo{margin-bottom:8px}
+.login-titulo{font-size:26px;font-weight:900;font-family:Georgia,serif;letter-spacing:-.5px}
+.login-slogan{font-size:12px;opacity:.85;font-style:italic;margin-top:4px}
+.login-card{background:white;border-radius:24px;padding:22px;width:100%;max-width:400px;box-shadow:0 24px 64px rgba(0,0,0,.3)}
+.perfis-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.p-btn{padding:10px 8px;border-radius:12px;border:2px solid var(--borda);background:white;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;color:var(--cinza)}
+.p-btn.on{border-color:var(--verm);background:var(--verm-l);color:var(--verm)}
+.modo-tabs{display:flex;background:#f3f4f6;border-radius:12px;padding:4px;margin-bottom:18px}
+.m-tab{flex:1;padding:9px;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:#9ca3af;transition:all .2s}
+.m-tab.on{background:white;color:var(--verm);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.campo{margin-bottom:13px}
+.campo label{font-size:11px;font-weight:700;color:#374151;display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.campo input,.campo select,.campo textarea{width:100%;padding:12px 14px;border:1.5px solid var(--borda);border-radius:10px;font-size:13px;transition:border .2s;background:white}
+.campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:var(--verm)}
+.demo-hint{font-size:11px;color:var(--cinza);text-align:center;background:var(--verm-l);border-radius:8px;padding:8px 12px;margin-bottom:14px}
+.btn-entrar{width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;color:white;letter-spacing:.3px;transition:all .2s}
+.bg-verm{background:linear-gradient(135deg,var(--verm-d),var(--verm))}
+.bg-azul{background:linear-gradient(135deg,#1e40af,var(--azul))}
+.bg-lrj{background:linear-gradient(135deg,#9a3412,var(--laranja))}
+.bg-roxo{background:linear-gradient(135deg,#4c1d95,var(--roxo))}
+.mem-login{color:rgba(255,255,255,.6);font-size:11px;font-style:italic;margin-top:20px;text-align:center}
+
+/* ── APP SHELL ── */
+#pg-app{display:none;flex-direction:column;min-height:100vh}
+.app-header{padding:18px 20px 54px;color:white;position:relative}
+.app-header-row{display:flex;justify-content:space-between;align-items:center}
+.logo-row{display:flex;align-items:center;gap:10px}
+.logo-vovo-sm{width:38px;height:38px}
+.logo-nome{font-size:17px;font-weight:900;font-family:Georgia,serif;line-height:1}
+.logo-sub{font-size:10px;opacity:.8;letter-spacing:.5px}
+.h-btns{display:flex;gap:6px}
+.h-btn{background:rgba(255,255,255,.2);border:none;color:white;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer}
+.h-alerta{background:rgba(0,0,0,.25);border-radius:10px;padding:8px 14px;margin-top:12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+
+.card-shell{margin:-36px 14px 0;background:white;border-radius:22px;box-shadow:0 8px 32px rgba(200,16,46,.12);overflow:hidden;min-height:520px}
+.nav-bar{display:flex;border-bottom:1px solid #f3f4f6;overflow-x:auto;scrollbar-width:none}
+.nav-bar::-webkit-scrollbar{display:none}
+.n-tab{flex:0 0 auto;padding:13px 16px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:700;color:#9ca3af;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s}
+.n-tab.on{color:var(--verm);border-bottom-color:var(--verm)}
+.n-tab.azul.on{color:var(--azul);border-bottom-color:var(--azul)}
+.n-tab.lrj.on{color:var(--laranja);border-bottom-color:var(--laranja)}
+.n-tab.rxo.on{color:var(--roxo);border-bottom-color:var(--roxo)}
+.pg{padding:16px;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── COMPONENTES ── */
+.card{background:white;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:1px solid #f3f4f6}
+.card.red{border:2px solid var(--verm);box-shadow:0 4px 20px rgba(200,16,46,.15)}
+.hero-box{border-radius:18px;padding:22px;text-align:center;margin-bottom:16px}
+.hero-red{background:linear-gradient(135deg,var(--verm-l),#ffe0e3);border:1px solid var(--verm-m)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.kpi{background:white;border-radius:14px;padding:14px 10px;text-align:center;border:2px solid var(--borda);cursor:pointer;transition:all .2s}
+.kpi:active{transform:scale(.97)}
+.kpi .ic{font-size:22px}
+.kpi .vl{font-size:21px;font-weight:900;margin:2px 0}
+.kpi .lb{font-size:9px;color:var(--cinza);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.linha{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f9fafb;font-size:13px}
+.linha:last-child{border:none}
+.linha .nm{color:#374151}
+.linha .vl{font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700}
+.tag-a{background:#ecfdf5;color:var(--verde)}
+.tag-f{background:#fef2f2;color:#ef4444}
+.tag-on{background:#ecfdf5;color:var(--verde);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.tag-off{background:#fef2f2;color:#ef4444;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.med-pill{background:var(--verm-l);color:var(--verm-d);border-radius:8px;padding:3px 10px;font-size:11px;font-weight:600;display:inline-block;margin:2px}
+.s-titulo{font-size:14px;font-weight:800;color:var(--preto);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--verm-l)}
+.vazio{text-align:center;padding:44px 20px;color:var(--cinza)}
+.vazio .ic{font-size:48px;margin-bottom:10px}
+.btn{border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;color:white;padding:10px 18px;transition:all .2s}
+.btn-full{width:100%;padding:14px;font-size:15px;border-radius:12px}
+.btn-sm{padding:8px 14px;font-size:11px;border-radius:8px}
+.bv{background:var(--verm)}.ba{background:var(--azul)}.bl{background:var(--laranja)}.bg{background:var(--verde)}.br{background:#ef4444}
+.acoes{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.qtd-ctrl{display:flex;align-items:center;gap:18px;margin-top:6px}
+.qtd-b{width:42px;height:42px;border-radius:11px;border:2px solid var(--verm-m);background:var(--verm-l);color:var(--verm);font-size:22px;font-weight:800;cursor:pointer}
+.qtd-n{font-size:24px;font-weight:900;color:var(--verm);min-width:32px;text-align:center}
+.stat-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.stat{background:white;border-radius:12px;padding:14px;text-align:center;border:2px solid var(--borda)}
+.stat .sv{font-size:26px;font-weight:900}
+.stat .sl{font-size:10px;color:var(--cinza);font-weight:600;text-transform:uppercase}
+.rota-ani{font-size:40px;text-align:center;animation:moto 1s ease-in-out infinite alternate}
+@keyframes moto{from{transform:translateX(-6px)}to{transform:translateX(6px)}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:13px 26px;border-radius:16px;font-size:13px;font-weight:700;color:white;box-shadow:0 8px 32px rgba(0,0,0,.25);z-index:9999;white-space:nowrap;animation:toastIn .3s ease;max-width:90vw;text-align:center}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- ═══ SPLASH ═══ -->
+<div id="splash">
+  <div class="splash-vovo">
+    <svg width="120" height="140" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+      <!-- Corpo -->
+      <ellipse cx="60" cy="105" rx="32" ry="30" fill="#C8102E"/>
+      <!-- Jaleco -->
+      <ellipse cx="60" cy="105" rx="28" ry="26" fill="white" opacity=".9"/>
+      <!-- Cruz jaleco -->
+      <rect x="54" y="88" width="12" height="28" rx="3" fill="#C8102E"/>
+      <rect x="46" y="96" width="28" height="12" rx="3" fill="#C8102E"/>
+      <!-- Pescoço -->
+      <rect x="53" y="72" width="14" height="18" rx="6" fill="#FDBCB4"/>
+      <!-- Cabeça -->
+      <ellipse cx="60" cy="62" rx="24" ry="26" fill="#FDBCB4"/>
+      <!-- Cabelo branco -->
+      <ellipse cx="60" cy="44" rx="24" ry="14" fill="#E8E8E8"/>
+      <ellipse cx="38" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+      <ellipse cx="82" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+      <!-- Coque -->
+      <circle cx="60" cy="34" r="10" fill="#D0D0D0"/>
+      <circle cx="60" cy="28" r="6" fill="#BBBBBB"/>
+      <!-- Óculos -->
+      <circle cx="50" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+      <circle cx="70" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+      <line x1="58" y1="62" x2="62" y2="62" stroke="#8B4513" stroke-width="2"/>
+      <line x1="42" y1="60" x2="36" y2="58" stroke="#8B4513" stroke-width="1.5"/>
+      <line x1="78" y1="60" x2="84" y2="58" stroke="#8B4513" stroke-width="1.5"/>
+      <!-- Olhos -->
+      <circle cx="50" cy="62" r="3.5" fill="#4A2F1A"/>
+      <circle cx="70" cy="62" r="3.5" fill="#4A2F1A"/>
+      <circle cx="51.5" cy="60.5" r="1" fill="white"/>
+      <circle cx="71.5" cy="60.5" r="1" fill="white"/>
+      <!-- Bochechas -->
+      <circle cx="40" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+      <circle cx="80" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+      <!-- Sorriso -->
+      <path d="M 50 72 Q 60 80 70 72" stroke="#C0392B" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Braço esquerdo com caixinha de remédio -->
+      <rect x="14" y="88" width="20" height="14" rx="4" fill="#C8102E"/>
+      <rect x="18" y="84" width="12" height="8" rx="2" fill="#E63950"/>
+      <rect x="22" y="82" width="4" height="12" rx="1" fill="white"/>
+      <rect x="18" y="86" width="12" height="4" rx="1" fill="white"/>
+      <!-- Braço direito com chá -->
+      <rect x="86" y="90" width="16" height="20" rx="4" fill="#8B4513"/>
+      <path d="M 86 98 Q 82 98 82 104 Q 82 110 86 110" stroke="#8B4513" stroke-width="2" fill="none"/>
+      <!-- Vapor do chá -->
+      <path d="M 90 88 Q 92 84 90 80" stroke="white" stroke-width="1.5" fill="none" opacity=".7" stroke-linecap="round"/>
+      <path d="M 95 88 Q 97 83 95 79" stroke="white" stroke-width="1.5" fill="none" opacity=".7" stroke-linecap="round"/>
+      <!-- Moto pequena embaixo -->
+      <ellipse cx="30" cy="135" rx="10" ry="5" fill="#333" opacity=".3"/>
+      <ellipse cx="90" cy="135" rx="10" ry="5" fill="#333" opacity=".3"/>
+      <rect x="25" y="122" width="70" height="14" rx="6" fill="#333"/>
+      <circle cx="30" cy="133" r="6" fill="#555" stroke="#333" stroke-width="2"/>
+      <circle cx="90" cy="133" r="6" fill="#555" stroke="#333" stroke-width="2"/>
+      <rect x="50" y="118" width="20" height="10" rx="4" fill="#C8102E"/>
+    </svg>
+  </div>
+  <div class="splash-titulo">Carmelina Pharma</div>
+  <div class="splash-sub">Entregas 🏍️ O cuidado da vovó, na velocidade da moto</div>
+  <div class="splash-loading"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+</div>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="pg-login">
+  <div class="login-hero">
+    <div class="login-vovo">
+      <svg width="90" height="105" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="105" rx="32" ry="30" fill="#C8102E"/>
+        <ellipse cx="60" cy="105" rx="28" ry="26" fill="white" opacity=".9"/>
+        <rect x="54" y="88" width="12" height="28" rx="3" fill="#C8102E"/>
+        <rect x="46" y="96" width="28" height="12" rx="3" fill="#C8102E"/>
+        <rect x="53" y="72" width="14" height="18" rx="6" fill="#FDBCB4"/>
+        <ellipse cx="60" cy="62" rx="24" ry="26" fill="#FDBCB4"/>
+        <ellipse cx="60" cy="44" rx="24" ry="14" fill="#E8E8E8"/>
+        <ellipse cx="38" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+        <ellipse cx="82" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+        <circle cx="60" cy="34" r="10" fill="#D0D0D0"/>
+        <circle cx="60" cy="28" r="6" fill="#BBBBBB"/>
+        <circle cx="50" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+        <circle cx="70" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+        <line x1="58" y1="62" x2="62" y2="62" stroke="#8B4513" stroke-width="2"/>
+        <circle cx="50" cy="62" r="3.5" fill="#4A2F1A"/>
+        <circle cx="70" cy="62" r="3.5" fill="#4A2F1A"/>
+        <circle cx="40" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+        <circle cx="80" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+        <path d="M 50 72 Q 60 80 70 72" stroke="#C0392B" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <rect x="14" y="88" width="20" height="14" rx="4" fill="#C8102E"/>
+        <rect x="18" y="84" width="12" height="8" rx="2" fill="#E63950"/>
+        <rect x="22" y="82" width="4" height="12" rx="1" fill="white"/>
+        <rect x="18" y="86" width="12" height="4" rx="1" fill="white"/>
+      </svg>
+    </div>
+    <div class="login-titulo">Carmelina Pharma</div>
+    <div class="login-slogan">Entregas de medicamentos na sua porta 💊</div>
+  </div>
+
+  <div class="login-card">
+    <div class="perfis-grid">
+      <button class="p-btn on" onclick="setPerfil('cliente',this)">👤 Cliente</button>
+      <button class="p-btn" onclick="setPerfil('farmacia',this)">🏪 Farmácia</button>
+      <button class="p-btn" onclick="setPerfil('motoboy',this)">🏍️ Motoboy</button>
+      <button class="p-btn" onclick="setPerfil('admin',this)">⚙️ Admin</button>
+    </div>
+    <div class="modo-tabs">
+      <button class="m-tab on" onclick="setModo('entrar',this)">Entrar</button>
+      <button class="m-tab" onclick="setModo('cadastrar',this)">Criar Conta</button>
+    </div>
+    <div id="form-area"></div>
+    <div id="demo-box" class="demo-hint"></div>
+    <button id="btn-acao" class="btn-entrar bg-verm" onclick="acao()">Entrar</button>
+  </div>
+  <div class="mem-login">Em memória de Carmelina 💚<br>Que seus chás curassem qualquer mal</div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="pg-app">
+  <div id="hdr"></div>
+  <div class="card-shell">
+    <div id="nav" class="nav-bar"></div>
+    <div id="pg" class="pg"></div>
+  </div>
+  <div style="height:24px"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// BANCO DE DADOS (substituir por Firebase/Supabase em produção)
+// ════════════════════════════════════════
+const DB = {
+  farmacias:[
+    {id:'f1',nome:'Farmácia Central Luziânia',cidade:'Luziânia',estado:'GO',telefone:'(61) 3621-0001',cnpj:'12.345.678/0001-00',endereco:'Rua das Flores, 123',aberta:true,avaliacao:4.8,senha:'farma123',meds:['Paracetamol 750mg','Ibuprofeno 400mg','Amoxicilina 500mg','Dipirona 500mg','Omeprazol 20mg','Losartana 50mg']},
+    {id:'f2',nome:'Drogaria BemEstar DF',cidade:'Brasília',estado:'DF',telefone:'(61) 3200-2020',cnpj:'98.765.432/0001-00',endereco:'SCS Quadra 2, Bloco C',aberta:true,avaliacao:4.5,senha:'bem123',meds:['Metformina 850mg','Atorvastatina 20mg','Vitamina D 2000UI','Rivotril 2mg']},
+    {id:'f3',nome:'Farmácia Popular Anápolis',cidade:'Anápolis',estado:'GO',telefone:'(62) 3310-0303',cnpj:'11.222.333/0001-00',endereco:'Av. Brasil Norte, 789',aberta:false,avaliacao:4.2,senha:'pop123',meds:['Vitamina C 1g','Zinco 50mg','Complexo B','Aspirina 100mg']},
+  ],
+  clientes:[
+    {id:'c1',nome:'Maria Silva',telefone:'(61) 99999-0001',email:'maria@email.com',endereco:'Rua A, 10, Luziânia/GO',senha:'123456'},
+  ],
+  motoboys:[
+    {id:'m1',nome:'João Moto',telefone:'(61) 98888-0001',cnh:'ABC123456',placa:'ABC-1D23',disponivel:true,avaliacao:4.9,corridas:142,senha:'moto123'},
+    {id:'m2',nome:'Pedro Veloz',telefone:'(61) 98888-0002',cnh:'DEF789012',placa:'DEF-5E78',disponivel:false,avaliacao:4.7,corridas:89,senha:'moto456'},
+  ],
+  pedidos:[],
+  nid:100
+};
+
+// ════════════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════════════
+let S={sessao:null,perfil:'cliente',modo:'entrar',aba:'inicio'};
+let _fs='',_ms='',_qtd=1;
+
+// ════════════════════════════════════════
+// SPLASH
+// ════════════════════════════════════════
+setTimeout(()=>{
+  document.getElementById('splash').classList.add('hide');
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    document.getElementById('pg-login').style.display='flex';
+    renderForm();
+  },500);
+},2200);
+
+// ════════════════════════════════════════
+// LOGIN
+// ════════════════════════════════════════
+function setPerfil(p,el){
+  S.perfil=p;
+  document.querySelectorAll('.p-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderForm();
+}
+function setModo(m,el){
+  S.modo=m;
+  document.querySelectorAll('.m-tab').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('btn-acao').textContent=m==='entrar'?'Entrar →':'Criar Conta Grátis';
+  renderForm();
+}
+function renderForm(){
+  const demos={cliente:'👤 Demo: maria@email.com / 123456',farmacia:'🏪 CNPJ: 12.345.678/0001-00 / farma123',motoboy:'🏍️ Tel: (61) 98888-0001 / moto123',admin:'⚙️ admin@carmelina.com / admin123'};
+  document.getElementById('demo-box').textContent=S.modo==='entrar'?demos[S.perfil]:'';
+  const p=S.perfil, e=S.modo==='entrar';
+  let h='';
+  const c=(id,lb,ph,tp='text')=>`<div class="campo"><label>${lb}</label><input id="f_${id}" type="${tp}" placeholder="${ph}" autocomplete="off"></div>`;
+  if(e){
+    if(p==='farmacia')h+=c('cnpj','CNPJ','00.000.000/0001-00');
+    else if(p==='motoboy')h+=c('tel','Telefone','(00) 00000-0000','tel');
+    else h+=c('email','E-mail','seu@email.com','email');
+    h+=c('senha','Senha','••••••','password');
+  } else {
+    h+=c('nome','Nome Completo','Seu nome completo');
+    h+=c('tel','Telefone','(00) 00000-0000','tel');
+    h+=c('senha','Senha','Mínimo 6 caracteres','password');
+    if(p==='cliente'){h+=c('email','E-mail','seu@email.com','email');h+=c('end','Endereço de Entrega','Rua, número, bairro, cidade/UF');}
+    if(p==='farmacia'){h+=c('cnpj','CNPJ','00.000.000/0001-00');h+=c('cidade','Cidade','Ex: Luziânia');h+=c('estado','Estado (UF)','Ex: GO');h+=c('end','Endereço da Farmácia','Rua, número, bairro');}
+    if(p==='motoboy'){h+=c('cnh','Número da CNH','000000000');h+=c('placa','Placa da Moto','ABC-1D23');}
+  }
+  document.getElementById('form-area').innerHTML=h;
+}
+const fv=id=>{const e=document.getElementById('f_'+id);return e?e.value.trim():''};
+
+function acao(){
+  if(S.modo==='cadastrar'){cadastrar();return;}
+  const p=S.perfil;
+  if(p==='admin'&&fv('email')==='admin@carmelina.com'&&fv('senha')==='admin123'){abrirApp({tipo:'admin',dados:{id:'adm',nome:'Administrador'}});return;}
+  if(p==='cliente'){const u=DB.clientes.find(c=>c.email===fv('email')&&c.senha===fv('senha'));if(u){abrirApp({tipo:'cliente',dados:u});return;}}
+  if(p==='farmacia'){const u=DB.farmacias.find(f=>f.cnpj===fv('cnpj')&&f.senha===fv('senha'));if(u){abrirApp({tipo:'farmacia',dados:u});return;}}
+  if(p==='motoboy'){const u=DB.motoboys.find(m=>m.telefone===fv('tel')&&m.senha===fv('senha'));if(u){abrirApp({tipo:'motoboy',dados:u});return;}}
+  toast('Dados incorretos. Tente novamente!','#ef4444');
+}
+
+function cadastrar(){
+  const p=S.perfil,nome=fv('nome'),senha=fv('senha'),tel=fv('tel');
+  if(!nome||!senha){toast('Preencha nome e senha','#ef4444');return;}
+  if(senha.length<6){toast('Senha deve ter ao menos 6 caracteres','#ef4444');return;}
+  if(p==='cliente'){
+    const email=fv('email');
+    if(!email){toast('E-mail obrigatório','#ef4444');return;}
+    if(DB.clientes.find(c=>c.email===email)){toast('E-mail já cadastrado!','#ef4444');return;}
+    const u={id:'c'+Date.now(),nome,email,telefone:tel,endereco:fv('end'),senha};
+    DB.clientes.push(u);abrirApp({tipo:'cliente',dados:u});
+  } else if(p==='farmacia'){
+    const cnpj=fv('cnpj');
+    if(!cnpj){toast('CNPJ obrigatório','#ef4444');return;}
+    const u={id:'f'+Date.now(),nome,cidade:fv('cidade'),estado:fv('estado'),telefone:tel,cnpj,endereco:fv('end'),aberta:true,avaliacao:5.0,senha,meds:[]};
+    DB.farmacias.push(u);abrirApp({tipo:'farmacia',dados:u});
+  } else if(p==='motoboy'){
+    const cnh=fv('cnh'),placa=fv('placa');
+    if(!cnh||!placa){toast('CNH e placa obrigatórios','#ef4444');return;}
+    const u={id:'m'+Date.now(),nome,telefone:tel,cnh,placa,disponivel:true,avaliacao:5.0,corridas:0,senha};
+    DB.motoboys.push(u);abrirApp({tipo:'motoboy',dados:u});
+  }
+  toast('Bem-vindo à família Carmelina! 💊');
+}
+
+// ════════════════════════════════════════
+// APP
+// ════════════════════════════════════════
+function abrirApp(sessao){
+  S.sessao=sessao; S.aba='inicio';
+  document.getElementById('pg-login').style.display='none';
+  document.getElementById('pg-app').style.display='flex';
+  render();
+}
+function logout(){
+  S.sessao=null;
+  document.getElementById('pg-app').style.display='none';
+  document.getElementById('pg-login').style.display='flex';
+  renderForm();
+}
+function irAba(a){S.aba=a;renderNav();renderPg();window.scrollTo(0,0);}
+function render(){renderHdr();renderNav();renderPg();}
+
+// ── HEADER ──
+function renderHdr(){
+  const t=S.sessao.tipo,d=S.sessao.dados;
+  const grad={cliente:`linear-gradient(135deg,#8B0000,#C8102E)`,farmacia:`linear-gradient(135deg,#1e3a8a,#1D4ED8)`,motoboy:`linear-gradient(135deg,#7c2d12,#EA580C)`,admin:`linear-gradient(135deg,#3b0764,#7C3AED)`}[t];
+  const farm=t==='farmacia'?(DB.farmacias.find(f=>f.id===d.id)||d):null;
+  const moto=t==='motoboy'?(DB.motoboys.find(m=>m.id===d.id)||d):null;
+  const pend=t==='farmacia'?DB.pedidos.filter(p=>p.farmaciaId===d.id&&p.status==='Aguardando Farmácia').length:0;
+  const disp=t==='motoboy'?DB.pedidos.filter(p=>p.status==='Aguardando Motoboy').length:0;
+  const emr=t==='cliente'?DB.pedidos.filter(p=>p.clienteId===d.id&&p.status==='Em Rota de Entrega').length:0;
+  let alerta='';
+  if(pend>0)alerta=`<div class="h-alerta">🔔 ${pend} pedido(s) aguardando confirmação!</div>`;
+  if(disp>0)alerta=`<div class="h-alerta">🔔 ${disp} pedido(s) disponível!</div>`;
+  if(emr>0)alerta=`<div class="h-alerta">🏍️ Seu pedido está a caminho!</div>`;
+  let extra='';
+  if(farm)extra+=`<button class="h-btn" onclick="toggleAberta()">${farm.aberta?'● Aberta':'● Fechada'}</button>`;
+  if(moto)extra+=`<button class="h-btn" onclick="toggleDisp()">${moto.disponivel?'🟢 Online':'🔴 Offline'}</button>`;
+  const subMap={cliente:'Olá, '+d.nome.split(' ')[0]+'! 👋',farmacia:(farm?.cidade||'')+'/'+( farm?.estado||''),motoboy:'Placa: '+(moto?.placa||'')+' · ⭐'+(moto?.avaliacao||5),admin:'Painel Geral'};
+  document.getElementById('hdr').innerHTML=`
+  <div class="app-header" style="background:${grad}">
+    <div class="app-header-row">
+      <div class="logo-row">
+        <svg class="logo-vovo-sm" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="60" cy="105" rx="32" ry="30" fill="#C8102E"/>
+          <ellipse cx="60" cy="105" rx="28" ry="26" fill="white" opacity=".85"/>
+          <rect x="54" y="88" width="12" height="28" rx="3" fill="#C8102E"/>
+          <rect x="46" y="96" width="28" height="12" rx="3" fill="#C8102E"/>
+          <rect x="53" y="72" width="14" height="18" rx="6" fill="#FDBCB4"/>
+          <ellipse cx="60" cy="62" rx="24" ry="26" fill="#FDBCB4"/>
+          <ellipse cx="60" cy="44" rx="24" ry="14" fill="#E8E8E8"/>
+          <ellipse cx="38" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+          <ellipse cx="82" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+          <circle cx="60" cy="34" r="10" fill="#D0D0D0"/>
+          <circle cx="50" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+          <circle cx="70" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+          <line x1="58" y1="62" x2="62" y2="62" stroke="#8B4513" stroke-width="2"/>
+          <circle cx="50" cy="62" r="3" fill="#4A2F1A"/>
+          <circle cx="70" cy="62" r="3" fill="#4A2F1A"/>
+          <circle cx="40" cy="68" r="4" fill="#FFB6C1" opacity=".7"/>
+          <circle cx="80" cy="68" r="4" fill="#FFB6C1" opacity=".7"/>
+          <path d="M 50 72 Q 60 80 70 72" stroke="#C0392B" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="logo-nome">Carmelina Pharma</div>
+          <div class="logo-sub">${subMap[t]}</div>
+        </div>
+      </div>
+      <div class="h-btns">${extra}<button class="h-btn" onclick="logout()">Sair</button></div>
+    </div>${alerta}
+  </div>`;
+}
+
+// ── NAV ──
+function renderNav(){
+  const t=S.sessao.tipo;
+  const abas={
+    cliente:[['inicio','🏠','Início'],['farmacias','🏪','Farmácias'],['pedido','📋','Pedir'],['pedidos','📦','Pedidos']],
+    farmacia:[['pedidos','📋','Pedidos'],['estoque','💊','Estoque'],['historico','📊','Histórico']],
+    motoboy:[['disponiveis','📋','Disponíveis'],['emrota','🏍️','Em Rota'],['historico','📊','Histórico']],
+    admin:[['dashboard','📊','Dashboard'],['pedidos','📦','Pedidos'],['farmacias','🏪','Farmácias'],['motoboys','🏍️','Motoboys'],['clientes','👥','Clientes']]
+  }[t];
+  const cls={cliente:'',farmacia:'azul',motoboy:'lrj',admin:'rxo'}[t];
+  document.getElementById('nav').innerHTML=abas.map(([id,ic,lb])=>
+    `<button class="n-tab ${cls}${S.aba===id?' on':''}" onclick="irAba('${id}')">${ic} ${lb}</button>`
+  ).join('');
+}
+
+// ── CONTEÚDO ──
+function renderPg(){
+  const el=document.getElementById('pg');
+  el.classList.remove('pg');
+  void el.offsetWidth;
+  el.classList.add('pg');
+  const t=S.sessao.tipo;
+  if(t==='cliente')pgCliente();
+  else if(t==='farmacia')pgFarmacia();
+  else if(t==='motoboy')pgMotoboy();
+  else pgAdmin();
+}
+
+// ════════════════════════════════════════
+// CLIENTE
+// ════════════════════════════════════════
+function pgCliente(){
+  const d=S.sessao.dados;
+  const meus=DB.pedidos.filter(p=>p.clienteId===d.id).sort((a,b)=>b.ts-a.ts);
+  let h='';
+
+  if(S.aba==='inicio'){
+    h=`<div class="hero-box hero-red">
+      <svg width="70" height="82" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="105" rx="32" ry="30" fill="#C8102E"/>
+        <ellipse cx="60" cy="105" rx="28" ry="26" fill="white" opacity=".9"/>
+        <rect x="54" y="88" width="12" height="28" rx="3" fill="#C8102E"/>
+        <rect x="46" y="96" width="28" height="12" rx="3" fill="#C8102E"/>
+        <rect x="53" y="72" width="14" height="18" rx="6" fill="#FDBCB4"/>
+        <ellipse cx="60" cy="62" rx="24" ry="26" fill="#FDBCB4"/>
+        <ellipse cx="60" cy="44" rx="24" ry="14" fill="#E8E8E8"/>
+        <ellipse cx="38" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+        <ellipse cx="82" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+        <circle cx="60" cy="34" r="10" fill="#D0D0D0"/>
+        <circle cx="50" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+        <circle cx="70" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+        <line x1="58" y1="62" x2="62" y2="62" stroke="#8B4513" stroke-width="2"/>
+        <circle cx="50" cy="62" r="3.5" fill="#4A2F1A"/>
+        <circle cx="70" cy="62" r="3.5" fill="#4A2F1A"/>
+        <circle cx="40" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+        <circle cx="80" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+        <path d="M 50 72 Q 60 80 70 72" stroke="#C0392B" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <rect x="14" y="88" width="20" height="14" rx="4" fill="#C8102E"/>
+        <rect x="18" y="84" width="12" height="8" rx="2" fill="#E63950"/>
+        <rect x="22" y="82" width="4" height="12" rx="1" fill="white"/>
+        <rect x="18" y="86" width="12" height="4" rx="1" fill="white"/>
+      </svg>
+      <div style="font-size:18px;font-weight:900;color:var(--verm);font-family:Georgia,serif;margin-top:8px">Carmelina Pharma Entregas</div>
+      <div style="font-size:12px;color:var(--cinza);font-style:italic;margin-top:4px">"O cuidado da vovó, na velocidade da moto"</div>
+      <button class="btn btn-full bv" style="margin-top:14px" onclick="irAba('pedido')">💊 Fazer Pedido Agora</button>
+    </div>
+    <div class="g2">
+      <div class="kpi" onclick="irAba('farmacias')" style="border-color:#C8102E30"><div class="ic">🏪</div><div class="vl" style="color:var(--verm)">${DB.farmacias.filter(f=>f.aberta).length}</div><div class="lb">Farmácias Abertas</div></div>
+      <div class="kpi" onclick="irAba('pedidos')" style="border-color:#1D4ED830"><div class="ic">📦</div><div class="vl" style="color:var(--azul)">${meus.length}</div><div class="lb">Meus Pedidos</div></div>
+      <div class="kpi" style="border-color:#EA580C30"><div class="ic">🏍️</div><div class="vl" style="color:var(--laranja)">${DB.motoboys.filter(m=>m.disponivel).length}</div><div class="lb">Motoboys Online</div></div>
+      <div class="kpi" onclick="irAba('pedido')" style="border-color:#05996930"><div class="ic">📋</div><div class="vl" style="color:var(--verde)">+</div><div class="lb">Novo Pedido</div></div>
+    </div>`;
+    if(meus.length)h+=`<div class="s-titulo">📦 Último Pedido</div><div class="card red">${cPedido(meus[0])}</div>`;
+  }
+
+  else if(S.aba==='farmacias'){
+    h=`<input oninput="filtFarms(this.value)" placeholder="🔍 Buscar farmácia ou cidade..." style="width:100%;padding:12px 14px;border:1.5px solid var(--verm-m);border-radius:12px;margin-bottom:14px;font-size:13px;background:var(--verm-l)"><div id="lista-f">`;
+    DB.farmacias.forEach(f=>{
+      h+=`<div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1">
+            <div style="font-weight:800;font-size:15px">${f.nome}</div>
+            <div style="font-size:12px;color:var(--cinza)">📍 ${f.cidade}/${f.estado} · ⭐${f.avaliacao}</div>
+            <div style="font-size:12px;color:var(--cinza)">📞 ${f.telefone}</div>
+            ${f.endereco?`<div style="font-size:12px;color:var(--cinza)">🏠 ${f.endereco}</div>`:''}
+            <span class="${f.aberta?'tag-a':'tag-f'}" style="margin-top:6px;display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px">${f.aberta?'🟢 Aberta':'🔴 Fechada'}</span>
+          </div>
+          ${f.aberta?`<button class="btn btn-sm bv" onclick="selFarm('${f.id}')">Pedir</button>`:''}
+        </div>
+        ${f.meds?.length?`<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px">${f.meds.map(m=>`<span class="med-pill">${m}</span>`).join('')}</div>`:''}
+      </div>`;
+    });
+    h+='</div>';
+  }
+
+  else if(S.aba==='pedido'){
+    const farm=DB.farmacias.find(f=>f.id===_fs);
+    h=`<div class="s-titulo">📋 Novo Pedido</div>
+    <div class="campo"><label>Escolha a Farmácia *</label>
+      <select onchange="_fs=this.value;_ms='';renderPg()">
+        <option value="">Selecione a farmácia...</option>
+        ${DB.farmacias.filter(f=>f.aberta).map(f=>`<option value="${f.id}"${f.id===_fs?' selected':''}>${f.nome} — ${f.cidade}/${f.estado}</option>`).join('')}
+      </select></div>`;
+    if(farm){
+      h+=`<div class="campo"><label>Medicamento *</label>
+        <select onchange="_ms=this.value;renderPg()">
+          <option value="">Selecione...</option>
+          ${farm.meds.map(m=>`<option value="${m}"${m===_ms?' selected':''}>${m}</option>`).join('')}
+          <option value="outro"${_ms==='outro'?' selected':''}>✏️ Outro (digitar)</option>
+        </select></div>`;
+      if(_ms==='outro')h+=`<div class="campo"><label>Nome do Medicamento</label><input id="mc" placeholder="Ex: Rivotril 2mg"></div>`;
+    }
+    h+=`<div class="campo"><label>Quantidade</label>
+      <div class="qtd-ctrl">
+        <button class="qtd-b" onclick="_qtd=Math.max(1,_qtd-1);renderPg()">−</button>
+        <span class="qtd-n">${_qtd}</span>
+        <button class="qtd-b" onclick="_qtd++;renderPg()">+</button>
+      </div></div>
+    <div class="campo"><label>Endereço de Entrega *</label>
+      <textarea id="end-e" rows="2" placeholder="Rua, número, bairro, cidade/UF" style="width:100%;padding:12px 14px;border:1.5px solid var(--borda);border-radius:10px;font-size:13px;resize:none">${d.endereco||''}</textarea></div>
+    <div class="campo"><label>Observações</label>
+      <textarea id="obs-e" rows="2" placeholder="Número da receita, dosagem específica..." style="width:100%;padding:12px 14px;border:1.5px solid var(--borda);border-radius:10px;font-size:13px;resize:none"></textarea></div>
+    <button class="btn btn-full bv" onclick="enviarPedido()">🏍️ Enviar Pedido à Carmelina</button>`;
+  }
+
+  else if(S.aba==='pedidos'){
+    h=`<div class="s-titulo">📦 Meus Pedidos</div>`;
+    if(!meus.length)h+=`<div class="vazio"><div class="ic">📭</div><div>Nenhum pedido ainda</div><br><button class="btn bv" onclick="irAba('pedido')">Fazer Primeiro Pedido</button></div>`;
+    else meus.forEach(p=>{h+=`<div class="card">${cPedido(p)}</div>`;});
+  }
+
+  document.getElementById('pg').innerHTML=h;
+}
+
+function filtFarms(v){
+  document.querySelectorAll('#lista-f .card').forEach(el=>{
+    el.style.display=el.textContent.toLowerCase().includes(v.toLowerCase())?'':'none';
+  });
+}
+function selFarm(id){_fs=id;_ms='';_qtd=1;irAba('pedido');}
+
+function enviarPedido(){
+  let med=_ms==='outro'?(document.getElementById('mc')?.value?.trim()||''):_ms;
+  const end=document.getElementById('end-e')?.value?.trim()||'';
+  const obs=document.getElementById('obs-e')?.value?.trim()||'';
+  if(!_fs||!med){toast('Selecione farmácia e medicamento','#ef4444');return;}
+  if(!end){toast('Informe o endereço de entrega','#ef4444');return;}
+  const farm=DB.farmacias.find(f=>f.id===_fs);
+  DB.pedidos.unshift({id:'#'+(++DB.nid),clienteId:S.sessao.dados.id,clienteNome:S.sessao.dados.nome,clienteTel:S.sessao.dados.telefone||'',farmaciaId:_fs,farmaciaNome:farm.nome,medicamento:med,quantidade:_qtd,obs,enderecoEntrega:end,status:'Aguardando Farmácia',ts:Date.now(),motoboyId:null,motoboyNome:null});
+  _fs='';_ms='';_qtd=1;
+  toast('Pedido enviado! Carmelina já sabe 💊');
+  irAba('pedidos');
+}
+
+// ════════════════════════════════════════
+// FARMÁCIA
+// ════════════════════════════════════════
+function pgFarmacia(){
+  const d=S.sessao.dados;
+  const farm=DB.farmacias.find(f=>f.id===d.id)||d;
+  const todos=DB.pedidos.filter(p=>p.farmaciaId===farm.id).sort((a,b)=>b.ts-a.ts);
+  const ativos=todos.filter(p=>!['Entregue','Cancelado'].includes(p.status));
+  let h='';
+
+  if(S.aba==='pedidos'){
+    if(!ativos.length)h=`<div class="vazio"><div class="ic">📭</div><div>Nenhum pedido ativo</div></div>`;
+    ativos.forEach(p=>{
+      h+=`<div class="card${p.status==='Aguardando Farmácia'?' red':''}">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:11px;color:var(--cinza);font-weight:600">${p.id} · ${dtFmt(p.ts)}</span>${bStatus(p.status)}
+        </div>
+        <div style="font-size:15px;font-weight:800">💊 ${p.medicamento} (x${p.quantidade})</div>
+        <div style="font-size:12px;color:var(--cinza)">👤 ${p.clienteNome}${p.clienteTel?' · 📞 '+p.clienteTel:''}</div>
+        <div style="font-size:12px;color:var(--cinza)">📍 ${p.enderecoEntrega}</div>
+        ${p.obs?`<div style="font-size:12px;color:var(--cinza)">💬 ${p.obs}</div>`:''}
+        ${p.motoboyNome?`<div style="font-size:12px;color:var(--laranja)">🏍️ ${p.motoboyNome}</div>`:''}
+        <div class="acoes">
+          ${p.status==='Aguardando Farmácia'?`<button class="btn btn-sm ba" onclick="upd('${p.id}','Pedido Confirmado')">✅ Confirmar</button><button class="btn btn-sm br" onclick="upd('${p.id}','Cancelado')">❌ Cancelar</button>`:''}
+          ${p.status==='Pedido Confirmado'?`<button class="btn btn-sm bl" onclick="upd('${p.id}','Aguardando Motoboy')">🏍️ Chamar Motoboy</button>`:''}
+        </div>
+      </div>`;
+    });
+  }
+  else if(S.aba==='estoque'){
+    h=`<div class="s-titulo">💊 Medicamentos Disponíveis</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="nm" placeholder="Ex: Paracetamol 750mg" style="flex:1;padding:11px 14px;border:1.5px solid var(--borda);border-radius:10px;font-size:13px" onkeydown="if(event.key==='Enter')addMed()">
+      <button class="btn ba" onclick="addMed()">+ Add</button>
+    </div>`;
+    if(!(farm.meds||[]).length)h+=`<div style="text-align:center;color:var(--cinza);padding:20px">Nenhum medicamento ainda</div>`;
+    (farm.meds||[]).forEach(m=>{
+      h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:var(--cinza-l);border-radius:11px;margin-bottom:8px">
+        <span style="font-size:13px;font-weight:600">💊 ${m}</span>
+        <button onclick="remMed('${m}')" style="background:none;border:none;color:#ef4444;font-size:20px;cursor:pointer;font-weight:900">×</button>
+      </div>`;
+    });
+  }
+  else if(S.aba==='historico'){
+    h=`<div class="stat-g">
+      <div class="stat"><div class="sv" style="color:var(--azul)">${todos.length}</div><div class="sl">Total</div></div>
+      <div class="stat"><div class="sv" style="color:var(--verde)">${todos.filter(p=>p.status==='Entregue').length}</div><div class="sl">Entregues</div></div>
+      <div class="stat"><div class="sv" style="color:#ef4444">${todos.filter(p=>p.status==='Cancelado').length}</div><div class="sl">Cancelados</div></div>
+      <div class="stat"><div class="sv" style="color:var(--laranja)">${ativos.length}</div><div class="sl">Em Andamento</div></div>
+    </div>`;
+    const hist=todos.filter(p=>['Entregue','Cancelado'].includes(p.status));
+    if(!hist.length)h+=`<div class="vazio"><div class="ic">📊</div><div>Sem histórico ainda</div></div>`;
+    hist.slice(0,15).forEach(p=>{
+      h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:700">💊 ${p.medicamento} (x${p.quantidade})</div><div style="font-size:11px;color:var(--cinza)">👤 ${p.clienteNome} · ${dtFmt(p.ts)}</div></div>${bStatus(p.status)}</div></div>`;
+    });
+  }
+  document.getElementById('pg').innerHTML=h;
+}
+function toggleAberta(){const f=DB.farmacias.find(x=>x.id===S.sessao.dados.id);if(f){f.aberta=!f.aberta;toast(f.aberta?'Farmácia aberta! 🟢':'Farmácia fechada 🔴');}render();}
+function addMed(){const v=document.getElementById('nm')?.value?.trim();if(!v)return;const f=DB.farmacias.find(x=>x.id===S.sessao.dados.id);if(f){f.meds=f.meds||[];if(!f.meds.includes(v)){f.meds.push(v);toast('Medicamento adicionado! 💊');renderPg();}else toast('Já cadastrado','#f59e0b');}}
+function remMed(m){const f=DB.farmacias.find(x=>x.id===S.sessao.dados.id);if(f){f.meds=f.meds.filter(x=>x!==m);renderPg();}}
+
+// ════════════════════════════════════════
+// MOTOBOY
+// ════════════════════════════════════════
+function pgMotoboy(){
+  const d=S.sessao.dados;
+  const moto=DB.motoboys.find(m=>m.id===d.id)||d;
+  const disp=DB.pedidos.filter(p=>p.status==='Aguardando Motoboy');
+  const meus=DB.pedidos.filter(p=>p.motoboyId===moto.id).sort((a,b)=>b.ts-a.ts);
+  const emRota=meus.filter(p=>p.status==='Em Rota de Entrega');
+  let h='';
+
+  if(S.aba==='disponiveis'){
+    if(!moto.disponivel)h+=`<div style="background:#fef2f2;border:1.5px solid #fecaca;border-radius:14px;padding:14px;text-align:center;margin-bottom:14px;color:#dc2626;font-weight:700">🔴 Você está Offline!<br><small style="font-weight:400">Toque em "Offline" no topo para ficar Online</small></div>`;
+    if(!disp.length)h+=`<div class="vazio"><div class="ic">🛵</div><div>Nenhum pedido disponível agora</div></div>`;
+    disp.forEach(p=>{
+      h+=`<div class="card red">
+        <div style="font-size:15px;font-weight:800;margin-bottom:8px">💊 ${p.medicamento} (x${p.quantidade})</div>
+        <div style="font-size:12px;color:var(--cinza)">🏪 Buscar em: <strong>${p.farmaciaNome}</strong></div>
+        <div style="font-size:13px;font-weight:700;color:var(--preto);margin-top:4px">📍 Entregar em: ${p.enderecoEntrega}</div>
+        <div style="font-size:12px;color:var(--cinza)">👤 ${p.clienteNome}${p.clienteTel?' · '+p.clienteTel:''}</div>
+        ${p.obs?`<div style="font-size:12px;color:var(--cinza)">💬 ${p.obs}</div>`:''}
+        <button class="btn btn-full bl" style="margin-top:12px" onclick="aceitar('${p.id}')" ${!moto.disponivel?'disabled style="opacity:.4"':''}>🏍️ Aceitar Esta Entrega</button>
+      </div>`;
+    });
+  }
+  else if(S.aba==='emrota'){
+    if(!emRota.length)h=`<div class="vazio"><div class="ic">🏍️</div><div>Nenhuma entrega em rota agora</div></div>`;
+    emRota.forEach(p=>{
+      h+=`<div class="card" style="border:2px solid var(--laranja)">
+        <div class="rota-ani">🏍️</div>
+        <div style="text-align:center;font-weight:800;color:var(--laranja);font-size:15px;margin-bottom:12px">Você está em rota!</div>
+        <div style="font-size:15px;font-weight:800">💊 ${p.medicamento} (x${p.quantidade})</div>
+        <div style="font-size:12px;color:var(--cinza)">🏪 Saindo de: ${p.farmaciaNome}</div>
+        <div style="font-size:14px;font-weight:800;color:var(--preto);margin:6px 0">📍 ${p.enderecoEntrega}</div>
+        <div style="font-size:12px;color:var(--cinza)">👤 ${p.clienteNome}${p.clienteTel?' · 📞 '+p.clienteTel:''}</div>
+        <button class="btn btn-full bg" style="margin-top:14px" onclick="entregar('${p.id}')">✅ Confirmar Entrega Realizada</button>
+      </div>`;
+    });
+  }
+  else if(S.aba==='historico'){
+    h=`<div class="stat-g">
+      <div class="stat"><div class="sv" style="color:var(--laranja)">${moto.corridas}</div><div class="sl">Corridas Feitas</div></div>
+      <div class="stat"><div class="sv" style="color:#f59e0b">⭐${moto.avaliacao}</div><div class="sl">Avaliação</div></div>
+    </div>`;
+    const hist=meus.filter(p=>p.status==='Entregue');
+    if(!hist.length)h+=`<div class="vazio"><div class="ic">📊</div><div>Sem histórico ainda</div></div>`;
+    hist.forEach(p=>{h+=`<div class="card"><div style="font-size:13px;font-weight:700">💊 ${p.medicamento}</div><div style="font-size:12px;color:var(--cinza)">📍 ${p.enderecoEntrega} · ${dtFmt(p.ts)}</div>${bStatus(p.status)}</div>`;});
+  }
+  document.getElementById('pg').innerHTML=h;
+}
+function toggleDisp(){const m=DB.motoboys.find(x=>x.id===S.sessao.dados.id);if(m){m.disponivel=!m.disponivel;toast(m.disponivel?'Você está Online! 🟢':'Você está Offline 🔴');}render();}
+function aceitar(id){
+  const moto=DB.motoboys.find(m=>m.id===S.sessao.dados.id);
+  if(!moto?.disponivel){toast('Fique Online primeiro!','#ef4444');return;}
+  upd(id,'Em Rota de Entrega',{motoboyId:moto.id,motoboyNome:moto.nome});
+  moto.disponivel=false;
+  toast('Pedido aceito! Bora buscar o remédio 🏍️');
+  irAba('emrota');
+}
+function entregar(id){
+  const moto=DB.motoboys.find(m=>m.id===S.sessao.dados.id);
+  upd(id,'Entregue');
+  if(moto){moto.disponivel=true;moto.corridas=(moto.corridas||0)+1;}
+  toast('Entrega concluída! Obrigada Carmelina! ⭐');
+  irAba('disponiveis');
+}
+
+// ════════════════════════════════════════
+// ADMIN
+// ════════════════════════════════════════
+function pgAdmin(){
+  let h='';
+  if(S.aba==='dashboard'){
+    h=`<div class="hero-box hero-red" style="padding:18px">
+      <svg width="60" height="70" viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="60" cy="105" rx="32" ry="30" fill="#C8102E"/>
+        <ellipse cx="60" cy="105" rx="28" ry="26" fill="white" opacity=".9"/>
+        <rect x="54" y="88" width="12" height="28" rx="3" fill="#C8102E"/>
+        <rect x="46" y="96" width="28" height="12" rx="3" fill="#C8102E"/>
+        <rect x="53" y="72" width="14" height="18" rx="6" fill="#FDBCB4"/>
+        <ellipse cx="60" cy="62" rx="24" ry="26" fill="#FDBCB4"/>
+        <ellipse cx="60" cy="44" rx="24" ry="14" fill="#E8E8E8"/>
+        <ellipse cx="38" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+        <ellipse cx="82" cy="56" rx="8" ry="12" fill="#E8E8E8"/>
+        <circle cx="60" cy="34" r="10" fill="#D0D0D0"/>
+        <circle cx="50" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+        <circle cx="70" cy="62" r="8" fill="none" stroke="#8B4513" stroke-width="2"/>
+        <line x1="58" y1="62" x2="62" y2="62" stroke="#8B4513" stroke-width="2"/>
+        <circle cx="50" cy="62" r="3.5" fill="#4A2F1A"/>
+        <circle cx="70" cy="62" r="3.5" fill="#4A2F1A"/>
+        <circle cx="40" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+        <circle cx="80" cy="68" r="5" fill="#FFB6C1" opacity=".7"/>
+        <path d="M 50 72 Q 60 80 70 72" stroke="#C0392B" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div style="font-size:16px;font-weight:900;color:var(--verm);font-family:Georgia,serif">Painel Administrativo</div>
+      <div style="font-size:11px;color:var(--cinza);font-style:italic">Carmelina Pharma Entregas</div>
+    </div>
+    <div class="stat-g">
+      <div class="stat"><div class="sv" style="color:var(--azul)">${DB.farmacias.length}</div><div class="sl">🏪 Farmácias<br><small>${DB.farmacias.filter(f=>f.aberta).length} abertas</small></div></div>
+      <div class="stat"><div class="sv" style="color:var(--laranja)">${DB.motoboys.length}</div><div class="sl">🏍️ Motoboys<br><small>${DB.motoboys.filter(m=>m.disponivel).length} online</small></div></div>
+      <div class="stat"><div class="sv" style="color:var(--verm)">${DB.clientes.length}</div><div class="sl">👥 Clientes</div></div>
+      <div class="stat"><div class="sv" style="color:var(--roxo)">${DB.pedidos.length}</div><div class="sl">📦 Pedidos</div></div>
+      <div class="stat"><div class="sv" style="color:var(--verde)">${DB.pedidos.filter(p=>p.status==='Entregue').length}</div><div class="sl">✅ Entregues</div></div>
+      <div class="stat"><div class="sv" style="color:var(--laranja)">${DB.pedidos.filter(p=>p.status==='Em Rota de Entrega').length}</div><div class="sl">🏍️ Em Rota</div></div>
+    </div>
+    <div class="s-titulo">📋 Pedidos Recentes</div>`;
+    if(!DB.pedidos.length)h+=`<div class="vazio"><div class="ic">📭</div><div>Nenhum pedido ainda</div></div>`;
+    DB.pedidos.slice(0,5).forEach(p=>{h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:700">💊 ${p.medicamento}</div><div style="font-size:11px;color:var(--cinza)">${p.clienteNome} → ${p.farmaciaNome}</div></div>${bStatus(p.status)}</div></div>`;});
+  }
+  else if(S.aba==='pedidos'){
+    h=`<div class="s-titulo">📦 Todos os Pedidos</div>`;
+    if(!DB.pedidos.length)h+=`<div class="vazio"><div class="ic">📭</div><div>Nenhum pedido ainda</div></div>`;
+    DB.pedidos.forEach(p=>{h+=`<div class="card">${cPedido(p)}</div>`;});
+  }
+  else if(S.aba==='farmacias'){
+    h=`<div class="s-titulo">🏪 Farmácias Cadastradas</div>`;
+    DB.farmacias.forEach(f=>{h+=`<div class="card"><div style="display:flex;justify-content:space-between"><div><div style="font-weight:800;font-size:14px">${f.nome}</div><div style="font-size:12px;color:var(--cinza)">📍 ${f.cidade}/${f.estado}</div><div style="font-size:12px;color:var(--cinza)">CNPJ: ${f.cnpj} · ⭐${f.avaliacao}</div><div style="font-size:12px;color:var(--cinza)">💊 ${f.meds?.length||0} medicamentos</div></div><span class="${f.aberta?'tag-on':'tag-off'}">${f.aberta?'Aberta':'Fechada'}</span></div></div>`;});
+  }
+  else if(S.aba==='motoboys'){
+    h=`<div class="s-titulo">🏍️ Motoboys Cadastrados</div>`;
+    DB.motoboys.forEach(m=>{h+=`<div class="card"><div style="display:flex;justify-content:space-between"><div><div style="font-weight:800;font-size:14px">🏍️ ${m.nome}</div><div style="font-size:12px;color:var(--cinza)">📞 ${m.telefone} · Placa: ${m.placa}</div><div style="font-size:12px;color:var(--cinza)">⭐${m.avaliacao} · ${m.corridas} corridas concluídas</div></div><span class="${m.disponivel?'tag-on':'tag-off'}">${m.disponivel?'Online':'Offline'}</span></div></div>`;});
+  }
+  else if(S.aba==='clientes'){
+    h=`<div class="s-titulo">👥 Clientes Cadastrados</div>`;
+    DB.clientes.forEach(c=>{h+=`<div class="card"><div style="font-weight:800;font-size:14px">👤 ${c.nome}</div><div style="font-size:12px;color:var(--cinza)">📧 ${c.email}${c.telefone?' · 📞 '+c.telefone:''}</div>${c.endereco?`<div style="font-size:12px;color:var(--cinza)">📍 ${c.endereco}</div>`:''}<div style="font-size:12px;color:var(--roxo);font-weight:600;margin-top:4px">${DB.pedidos.filter(p=>p.clienteId===c.id).length} pedido(s) realizados</div></div>`;});
+  }
+  document.getElementById('pg').innerHTML=h;
+}
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+function upd(id,status,extra={}){
+  const p=DB.pedidos.find(x=>x.id===id);
+  if(p)Object.assign(p,{status,...extra});
+  const msgs={'Pedido Confirmado':'Pedido confirmado! ✅','Aguardando Motoboy':'Chamando motoboy! 🏍️','Cancelado':'Pedido cancelado ❌','Entregue':'Entregue com sucesso! 🎉'};
+  toast(msgs[status]||'Atualizado!',status==='Cancelado'?'#ef4444':undefined);
+  render();
+}
+function cPedido(p){
+  return`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <span style="font-size:11px;color:var(--cinza)">${p.id} · ${dtFmt(p.ts)}</span>${bStatus(p.status)}
+  </div>
+  <div style="font-size:15px;font-weight:800">💊 ${p.medicamento} (x${p.quantidade})</div>
+  <div style="font-size:12px;color:var(--cinza)">🏪 ${p.farmaciaNome}</div>
+  <div style="font-size:12px;color:var(--cinza)">📍 ${p.enderecoEntrega}</div>
+  ${p.motoboyNome?`<div style="font-size:12px;color:var(--laranja)">🏍️ ${p.motoboyNome}</div>`:''}
+  ${p.obs?`<div style="font-size:12px;color:var(--cinza)">💬 ${p.obs}</div>`:''}`;
+}
+const SC={'Aguardando Farmácia':'#f59e0b','Pedido Confirmado':'#3b82f6','Aguardando Motoboy':'#8b5cf6','Em Rota de Entrega':'#EA580C','Entregue':'#059669','Cancelado':'#ef4444'};
+const SI={'Aguardando Farmácia':'⏳','Pedido Confirmado':'✅','Aguardando Motoboy':'🔍','Em Rota de Entrega':'🏍️','Entregue':'🎉','Cancelado':'❌'};
+function bStatus(s){const c=SC[s]||'#6b7280';return`<span class="badge" style="background:${c}20;color:${c};border:1px solid ${c}40">${SI[s]||''} ${s}</span>`;}
+function dtFmt(ts){return new Date(ts).toLocaleDateString('pt-BR');}
+function toast(msg,bg='#C8102E'){
+  document.querySelectorAll('.toast').forEach(t=>t.remove());
+  const t=document.createElement('div');
+  t.className='toast';t.style.background=bg;t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3200);
+}
+</script>
+</body>
+</html>
